@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ลิมิตของลำดับอนันต์ — รักดีติวเตอร์ · A-Level คณิต 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\\\(',right:'\\\\)',display:false},{left:'\\\\[',right:'\\\\]',display:true}],throwOnError:false});"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+/* FOUC guard — apply toggle classes before body renders */
+(function(){
+  try {
+    var hide = localStorage.getItem('rakdee_limit_answers_hidden');
+    var proj = localStorage.getItem('rakdee_limit_projector');
+    var cls = [];
+    if (hide === null || hide === 'true') cls.push('answers-hidden');
+    if (proj === 'true') cls.push('projector');
+    if (cls.length) document.documentElement.className += ' ' + cls.join(' ');
+  } catch(e) {}
+})();
+</script>
+<style>
+:root{
+  --black:#111111; --dark:#2E2E2E; --mid:#5A5A5A;
+  --lightbg:#F5F5F5; --midbg:#E8E8E8; --rule:#CCCCCC;
+  --red:#D72638;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans Thai',sans-serif;color:var(--black);background:#fff;line-height:1.7}
+h1,h2,h3,h4{font-family:'Noto Sans Thai',sans-serif;color:var(--dark);font-weight:700}
+.display{font-family:'Bebas Neue',sans-serif;letter-spacing:.02em}
+.brand-name{font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:.08em;color:var(--black)}
+.mono{font-family:'JetBrains Mono',monospace}
+.katex{font-size:1.05em}
+.concept-box{background:var(--lightbg);border:1px solid var(--mid);border-radius:6px;padding:16px 20px;margin:16px 0}
+.pattern-box{background:var(--midbg);border-left:5px solid var(--dark);border-radius:6px;padding:16px 20px;margin:16px 0}
+.danger-box{background:#fff;border:1.5px solid var(--red);border-radius:6px;padding:16px 20px;margin:16px 0}
+.coach-tag{display:inline-block;background:var(--red);color:#fff;font-size:.75rem;padding:2px 10px;border-radius:99px;font-weight:700;letter-spacing:.05em}
+.section-num{font-family:'Bebas Neue',sans-serif;font-size:5rem;line-height:1;color:var(--rule)}
+.btn{background:var(--black);color:#fff;padding:8px 18px;border-radius:6px;font-weight:500;transition:.15s;cursor:pointer;border:none;font-family:inherit}
+.btn:hover{background:var(--dark)}
+.btn-ghost{background:#fff;color:var(--black);border:1px solid var(--rule)}
+.btn-ghost:hover{background:var(--lightbg)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#b51d2c}
+.tab-btn{padding:8px 16px;border-bottom:2px solid transparent;font-weight:500;cursor:pointer;color:var(--mid)}
+.tab-btn.active{color:var(--black);border-bottom-color:var(--red)}
+.quiz-opt{display:block;width:100%;text-align:left;padding:12px 16px;border:1px solid var(--rule);border-radius:6px;margin:6px 0;cursor:pointer;background:#fff;transition:.15s;font-family:inherit}
+.quiz-opt:hover{background:var(--lightbg)}
+.quiz-opt.correct{background:#f0fff4;border-color:#0d7a3f;color:#0d7a3f}
+.quiz-opt.wrong{background:#fff0f0;border-color:var(--red);color:var(--red)}
+.quiz-opt.disabled{cursor:default;opacity:.7}
+input[type=range]{accent-color:var(--red)}
+table.formula-table{width:100%;border-collapse:collapse;margin:12px 0}
+table.formula-table th,table.formula-table td{border:1px solid var(--rule);padding:10px 12px;text-align:left}
+table.formula-table th{background:var(--lightbg);font-weight:700;color:var(--dark)}
+.step{padding:8px 14px;margin:6px 0;border-left:3px solid var(--rule);background:#fafafa}
+.step.active{border-left-color:var(--red);background:var(--lightbg)}
+.nav-pill{padding:6px 12px;border-radius:99px;font-size:.85rem;color:var(--mid);transition:.15s;white-space:nowrap}
+.nav-pill:hover{background:var(--lightbg);color:var(--black)}
+.nav-pill.current{background:var(--black);color:#fff}
+.bar{display:inline-block;background:var(--dark);margin-right:1px;vertical-align:bottom;transition:height .3s}
+canvas{display:block;max-width:100%;background:#fff;border:1px solid var(--rule);border-radius:6px}
+.hide{display:none}
+@media print{
+  nav, .no-print {display:none !important}
+  body{font-size:11pt}
+  .cheat-sheet{page-break-before:always}
+}
+
+/* ===== Classroom controls (answer toggle + projector) ===== */
+.nav-ctrl{
+  padding:6px 12px;border-radius:99px;font-size:.85rem;
+  background:var(--lightbg);color:var(--black);border:1px solid var(--rule);
+  cursor:pointer;white-space:nowrap;transition:.15s;font-family:inherit;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.nav-ctrl:hover{background:var(--midbg)}
+.nav-ctrl.active{background:var(--red);color:#fff;border-color:var(--red)}
+.nav-ctrl.active:hover{background:#b51d2c}
+
+/* Answer-toggle: red when hidden (🔒), green key when shown (🔓) */
+#toggleAnswers:not(.active){background:var(--red);color:#fff;border-color:var(--red)}
+#toggleAnswers:not(.active):hover{background:#b51d2c}
+#toggleAnswers.active{background:var(--lightbg);color:var(--black);border-color:var(--rule)}
+#toggleAnswers.active:hover{background:var(--midbg)}
+#toggleAnswers.active .ctrl-icon{color:transparent;text-shadow:0 0 0 #15803d}
+
+/* answers-hidden — hide explain blocks + step solver output + disable solver buttons */
+html.answers-hidden .explain{display:none !important}
+html.answers-hidden #solverOut > *{display:none}
+html.answers-hidden #solverOut::before{
+  content:"🔒 เฉลยถูกซ่อนอยู่ — กดปุ่ม “เฉลย” ที่ Nav ด้านบนเพื่อเปิด";
+  display:block;padding:18px 12px;text-align:center;color:var(--mid);font-size:.95rem;
+}
+html.answers-hidden button[data-solve]{opacity:.5;pointer-events:none}
+html.answers-hidden .quiz-opt{pointer-events:none;opacity:.75;cursor:not-allowed}
+html.answers-hidden .quiz-opt:hover{background:#fff}
+
+/* projector mode — bigger fonts, sharper contrast, no hover noise */
+html.projector{font-size:18.4px;--mid:#2E2E2E}
+html.projector body{line-height:1.85;letter-spacing:.01em}
+html.projector h1{font-size:4.5rem}
+html.projector h2{font-size:2.5rem}
+html.projector h3{font-size:1.5rem}
+html.projector .text-base{font-size:1.1rem}
+html.projector .text-sm{font-size:1rem}
+html.projector .text-xs{font-size:.9rem}
+html.projector .btn:hover,
+html.projector .btn-ghost:hover,
+html.projector .nav-pill:hover,
+html.projector .nav-ctrl:hover{background:inherit;color:inherit;border-color:inherit}
+html.projector .quiz-opt:hover{background:#fff}
+</style>
+</head>
+<body>
+
+<!-- ========= Sticky Top Nav ========= -->
+<nav class="sticky top-0 z-40 bg-white border-b border-gray-200 no-print">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
+    <a href="#hero" class="flex items-center gap-2 shrink-0">
+      <img src="rakdee_logo.png" alt="Rakdee" class="h-10 w-auto" onerror="this.style.display='none'">
+      <span class="brand-name text-lg md:text-xl">RAKDEE TUTOR</span>
+      <span class="text-xs text-gray-500 hidden md:inline">· คณิต = ระบบคิด</span>
+    </a>
+    <div class="flex gap-1 overflow-x-auto flex-1 scrollbar-hide">
+      <a href="#hero" class="nav-pill">บทนำ</a>
+      <a href="#s1" class="nav-pill">1 ลำดับ</a>
+      <a href="#s2" class="nav-pill">2 ลิมิต</a>
+      <a href="#s3" class="nav-pill">3 พื้นฐาน</a>
+      <a href="#s4" class="nav-pill">4 ทฤษฎีบท</a>
+      <a href="#s5" class="nav-pill">5 ตรรกยะ</a>
+      <a href="#s6" class="nav-pill">6 จัดรูป</a>
+      <a href="#s7" class="nav-pill">7 อนุกรม</a>
+      <a href="#s8" class="nav-pill">8 เรขาคณิต</a>
+      <a href="#s9" class="nav-pill">9 A-Level</a>
+      <a href="#cheat" class="nav-pill">📋 Cheat</a>
+    </div>
+    <div class="flex gap-1 shrink-0 border-l border-gray-200 pl-3 ml-1">
+      <button id="toggleAnswers" type="button" class="nav-ctrl" aria-pressed="false" title="แสดง/ซ่อนเฉลย (กด A)">
+        <span class="ctrl-icon">🔒</span><span class="ctrl-label">เฉลย</span>
+      </button>
+      <button id="toggleProjector" type="button" class="nav-ctrl" aria-pressed="false" title="Projector mode (กด P)">
+        <span class="ctrl-icon">📺</span><span class="ctrl-label hidden md:inline">Projector</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ========= HERO ========= -->
+<section id="hero" class="max-w-6xl mx-auto px-6 py-16">
+  <div class="text-center">
+    <span class="coach-tag">A-Level คณิต 1 · ม.6 · สสวท.</span>
+    <h1 class="display text-6xl md:text-7xl mt-6 mb-4 text-black">ลิมิตของลำดับอนันต์</h1>
+    <p class="text-xl text-gray-600 mb-2">เรียนตั้งแต่ <strong>ศูนย์</strong> จนสอบได้</p>
+    <p class="text-base text-gray-500">9 ส่วน · Animation · Step solver · Quiz · Cheat sheet</p>
+    <div class="mt-8 flex justify-center gap-3 flex-wrap">
+      <a href="#s1" class="btn">เริ่มเรียน →</a>
+      <a href="#s9" class="btn btn-ghost">โจทย์ A-Level</a>
+      <a href="#cheat" class="btn btn-ghost">Cheat Sheet</a>
+    </div>
+  </div>
+
+  <div class="mt-16 grid md:grid-cols-3 gap-4">
+    <div class="concept-box">
+      <div class="font-bold text-lg mb-2">🎯 เป้าหมาย</div>
+      <p class="text-sm text-gray-700">เข้าใจ <em>นิยาม</em> · ใช้ <em>ทฤษฎีบท</em> · แก้ <em>โจทย์</em> A-Level ได้ในเวลาจำกัด</p>
+    </div>
+    <div class="concept-box">
+      <div class="font-bold text-lg mb-2">🧠 Core Idea</div>
+      <p class="text-sm text-gray-700">"ลิมิต = พฤติกรรมเมื่อ n ใหญ่ขึ้นเรื่อยๆ" — ไม่ใช่การแทนค่า ไม่ใช่การเดา</p>
+    </div>
+    <div class="concept-box">
+      <div class="font-bold text-lg mb-2">⚙️ Workflow</div>
+      <p class="text-sm text-gray-700">อ่าน → ลองเล่น slider/animation → ทำ quiz → ดู step solver → ลงสนาม A-Level</p>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 1: ลำดับอนันต์ ========= -->
+<section id="s1" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">01</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 1</div>
+      <h2 class="text-3xl">ลำดับอนันต์คืออะไร</h2>
+      <p class="text-gray-600 mt-2">รู้จักนิยาม · เขียนสัญลักษณ์ · แยกประเภท</p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <div>
+      <h3 class="text-xl mb-3">📐 นิยาม</h3>
+      <p><strong>ลำดับอนันต์</strong> คือฟังก์ชันที่มีโดเมนเป็นเซตของจำนวนนับ $\mathbb{N} = \{1, 2, 3, \dots\}$</p>
+      <p class="mt-2">เขียนแทนด้วย $\{a_n\}$ หรือ $a_1, a_2, a_3, \dots$</p>
+      <p class="mt-2">โดย $a_n$ คือ <strong>พจน์ทั่วไป</strong> (general term) — สูตรของพจน์ที่ $n$</p>
+
+      <div class="concept-box">
+        <div class="font-bold mb-2">💡 Insight ของครูเต้ย</div>
+        <p class="text-sm">ลำดับ = ฟังก์ชัน (มอง $n$ เป็น input · $a_n$ เป็น output) — แต่ <strong>ขาดตอน</strong> เพราะ $n$ เป็นจำนวนนับเท่านั้น ไม่มี $a_{1.5}$</p>
+      </div>
+
+      <h3 class="text-xl mb-3 mt-6">🏷 ประเภทที่ต้องรู้จัก</h3>
+      <table class="formula-table">
+        <thead><tr><th>ประเภท</th><th>สูตร $a_n$</th><th>ตัวอย่าง</th></tr></thead>
+        <tbody>
+          <tr><td>เลขคณิต</td><td class="mono">$a_1 + (n-1)d$</td><td>2, 5, 8, 11, ...</td></tr>
+          <tr><td>เรขาคณิต</td><td class="mono">$a_1 \cdot r^{n-1}$</td><td>3, 6, 12, 24, ...</td></tr>
+          <tr><td>ฮาร์มอนิก</td><td class="mono">$1/n$</td><td>1, 1/2, 1/3, ...</td></tr>
+          <tr><td>กำลังสอง</td><td class="mono">$n^2$</td><td>1, 4, 9, 16, ...</td></tr>
+          <tr><td>สลับเครื่องหมาย</td><td class="mono">$(-1)^n$</td><td>-1, 1, -1, 1, ...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <h3 class="text-xl mb-3">🎮 Visualizer: พล็อตลำดับ</h3>
+      <p class="text-sm text-gray-600 mb-3">เลือกสูตร $a_n$ แล้วดูจุดบนกราฟ</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button class="btn btn-ghost text-sm" data-seq="1/n">$a_n = 1/n$</button>
+        <button class="btn btn-ghost text-sm" data-seq="(-1)^n">$a_n = (-1)^n$</button>
+        <button class="btn btn-ghost text-sm" data-seq="n">$a_n = n$</button>
+        <button class="btn btn-ghost text-sm" data-seq="(0.7)^n">$a_n = (0.7)^n$</button>
+        <button class="btn btn-ghost text-sm" data-seq="(1+1/n)^n">$a_n = (1+1/n)^n$</button>
+        <button class="btn btn-ghost text-sm" data-seq="n/(n+1)">$a_n = n/(n+1)$</button>
+      </div>
+      <canvas id="seqPlot" width="500" height="320"></canvas>
+      <div class="mt-2 text-sm text-gray-600">
+        <span>จำนวนพจน์: </span><span id="seqN" class="mono font-bold">20</span>
+        <input type="range" id="seqRange" min="5" max="50" value="20" class="w-full mt-1">
+      </div>
+      <div id="seqInfo" class="pattern-box text-sm"></div>
+    </div>
+  </div>
+
+  <!-- Quiz 1 -->
+  <div class="mt-10">
+    <h3 class="text-xl mb-3">✏️ Quick check</h3>
+    <div class="pattern-box quiz" data-quiz="q1">
+      <p class="font-bold mb-3">Q1. ข้อใด <u>ไม่ใช่</u> ลำดับอนันต์?</p>
+      <button class="quiz-opt" data-c="0">$a_n = 2n + 5$ เมื่อ $n \in \mathbb{N}$</button>
+      <button class="quiz-opt" data-c="0">$a_n = (-1)^n / n$</button>
+      <button class="quiz-opt" data-c="1">$a_n = \sqrt{n}$ เมื่อ $n = 1, 2, \dots, 100$</button>
+      <button class="quiz-opt" data-c="0">$a_n = \cos(n\pi)$</button>
+      <p class="text-sm text-gray-600 mt-3 explain hide">เฉลย: ข้อ 3 มีโดเมนจำกัด (1 ถึง 100) — เป็นลำดับ <strong>จำกัด</strong> ไม่ใช่อนันต์</p>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 2: แนวคิดลิมิต ========= -->
+<section id="s2" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">02</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 2</div>
+      <h2 class="text-3xl">แนวคิดของลิมิต — ลู่เข้า vs ลู่ออก</h2>
+      <p class="text-gray-600 mt-2">เข้าใจว่า "เข้าใกล้" หมายความว่าอะไร</p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <div>
+      <h3 class="text-xl mb-3">📐 นิยามแบบเข้าใจง่าย</h3>
+      <div class="concept-box">
+        <p>กล่าวว่า <strong>ลำดับ $\{a_n\}$ ลู่เข้าหา $L$</strong> ถ้าเมื่อ $n$ มีค่ามากขึ้นเรื่อยๆ พจน์ $a_n$ จะเข้าใกล้ค่า $L$ ได้ใกล้เท่าใดก็ได้</p>
+        <p class="mt-2 text-center"><strong class="mono text-lg">$\displaystyle \lim_{n \to \infty} a_n = L$</strong></p>
+      </div>
+      <p>ถ้าหา $L$ ที่เป็นจำนวนจริงไม่ได้ — เรียกว่า <strong>ลู่ออก</strong> (divergent)</p>
+
+      <h3 class="text-xl mb-3 mt-6">🏷 รูปแบบลู่ออก 3 แบบ</h3>
+      <table class="formula-table">
+        <thead><tr><th>แบบ</th><th>พฤติกรรม</th><th>ตัวอย่าง</th></tr></thead>
+        <tbody>
+          <tr><td>ออกสู่ $+\infty$</td><td>โตไม่มีขีดจำกัด</td><td>$a_n = n$</td></tr>
+          <tr><td>ออกสู่ $-\infty$</td><td>ลดลงไม่มีขีดจำกัด</td><td>$a_n = -n^2$</td></tr>
+          <tr><td>แกว่ง (oscillate)</td><td>ไม่เข้าค่าใด</td><td>$a_n = (-1)^n$</td></tr>
+        </tbody>
+      </table>
+
+      <div class="danger-box">
+        <div class="font-bold mb-2"><span class="coach-tag">💡 ครูเต้ยพูดว่า</span></div>
+        <p class="text-sm">นักเรียนชอบสับสนระหว่าง "$a_n \to 0$" กับ "$a_n = 0$" — ลิมิตคือ <strong>ปลายทาง</strong> ไม่ใช่ค่าจริงของพจน์ใดพจน์หนึ่ง</p>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-xl mb-3">🎮 Convergence Visualizer</h3>
+      <p class="text-sm text-gray-600 mb-3">เลื่อน $n$ เพื่อดูว่า $a_n$ เข้าใกล้เส้นแนวนอน $y = L$ แค่ไหน</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button class="btn btn-ghost text-sm" data-conv="1/n">$1/n \to 0$</button>
+        <button class="btn btn-ghost text-sm" data-conv="n/(n+1)">$n/(n+1) \to 1$</button>
+        <button class="btn btn-ghost text-sm" data-conv="(2n+1)/(n+3)">$(2n+1)/(n+3) \to 2$</button>
+        <button class="btn btn-ghost text-sm" data-conv="(-1)^n/n">$(-1)^n/n \to 0$</button>
+        <button class="btn btn-ghost text-sm" data-conv="(-1)^n">$(-1)^n$ ลู่ออก</button>
+      </div>
+      <canvas id="convPlot" width="500" height="320"></canvas>
+      <div class="mt-2 text-sm text-gray-600">
+        <span>n สูงสุด: </span><span id="convN" class="mono font-bold">15</span>
+        <input type="range" id="convRange" min="5" max="100" value="15" class="w-full mt-1">
+      </div>
+      <div id="convInfo" class="pattern-box text-sm"></div>
+    </div>
+  </div>
+
+  <!-- Quiz 2 -->
+  <div class="mt-10">
+    <h3 class="text-xl mb-3">✏️ Quick check</h3>
+    <div class="pattern-box quiz" data-quiz="q2">
+      <p class="font-bold mb-3">Q2. ลำดับใดต่อไปนี้ <u>ลู่เข้า</u>?</p>
+      <button class="quiz-opt" data-c="0">$a_n = n^2$</button>
+      <button class="quiz-opt" data-c="0">$a_n = (-1)^n$</button>
+      <button class="quiz-opt" data-c="1">$a_n = 3 + (1/2)^n$</button>
+      <button class="quiz-opt" data-c="0">$a_n = (-2)^n$</button>
+      <p class="text-sm text-gray-600 mt-3 explain hide">เฉลย: ข้อ 3 — เพราะ $(1/2)^n \to 0$ ดังนั้น $a_n \to 3$</p>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 3: ลิมิตพื้นฐาน ========= -->
+<section id="s3" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">03</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 3</div>
+      <h2 class="text-3xl">ลิมิตพื้นฐานที่ <u>ต้องจำให้ได้</u></h2>
+      <p class="text-gray-600 mt-2">3 สูตรหลัก · ใช้ตอบโจทย์ 80% ของข้อสอบ</p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="concept-box">
+      <div class="text-sm text-gray-500">สูตร 1</div>
+      <div class="text-2xl my-2 mono">$\displaystyle \lim_{n\to\infty} c = c$</div>
+      <p class="text-sm">ค่าคงตัวยังคงเป็นค่าคงตัวเสมอ</p>
+    </div>
+    <div class="concept-box">
+      <div class="text-sm text-gray-500">สูตร 2</div>
+      <div class="text-2xl my-2 mono">$\displaystyle \lim_{n\to\infty} \frac{1}{n^k} = 0$ <span class="text-base">($k > 0$)</span></div>
+      <p class="text-sm">หัวใจของโจทย์ตรรกยะทั้งหมด</p>
+    </div>
+    <div class="concept-box">
+      <div class="text-sm text-gray-500">สูตร 3 (สำคัญที่สุด)</div>
+      <div class="text-2xl my-2 mono">$\displaystyle \lim_{n\to\infty} r^n = ?$</div>
+      <p class="text-sm">ขึ้นกับค่า $r$ — ดูตารางด้านล่าง</p>
+    </div>
+  </div>
+
+  <div class="mt-8 grid md:grid-cols-2 gap-8">
+    <div>
+      <h3 class="text-xl mb-3">⚠️ ตาราง $r^n$ — ต้องท่องให้คล่อง</h3>
+      <table class="formula-table">
+        <thead><tr><th>เงื่อนไข $r$</th><th>$\lim r^n$</th><th>ตัวอย่าง</th></tr></thead>
+        <tbody>
+          <tr><td>$|r| < 1$</td><td><strong>0</strong></td><td>$(1/2)^n, (-0.3)^n$</td></tr>
+          <tr><td>$r = 1$</td><td><strong>1</strong></td><td>$1^n = 1$</td></tr>
+          <tr><td>$r > 1$</td><td>หาค่าไม่ได้ ($+\infty$)</td><td>$2^n, 1.01^n$</td></tr>
+          <tr><td>$r = -1$</td><td>หาค่าไม่ได้ (แกว่ง)</td><td>$(-1)^n$</td></tr>
+          <tr><td>$r < -1$</td><td>หาค่าไม่ได้ (แกว่ง+โต)</td><td>$(-2)^n$</td></tr>
+        </tbody>
+      </table>
+      <div class="danger-box">
+        <p class="text-sm"><strong>กับดักคลาสสิค:</strong> นักเรียนเห็น $(-0.5)^n$ แล้วคิดว่าหาค่าไม่ได้เพราะติดลบ — <strong>ผิด!</strong> เพราะ $|-0.5| = 0.5 < 1$ ดังนั้นลิมิต $= 0$</p>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-xl mb-3">🎮 r^n Explorer</h3>
+      <p class="text-sm text-gray-600 mb-3">เลื่อนค่า $r$ เพื่อดูพฤติกรรม</p>
+      <div class="flex items-center gap-3 mb-2">
+        <span class="mono">r =</span>
+        <span id="rVal" class="mono font-bold text-lg">0.7</span>
+      </div>
+      <input type="range" id="rRange" min="-2" max="2" step="0.05" value="0.7" class="w-full">
+      <div class="flex justify-between text-xs text-gray-500 mt-1"><span>-2</span><span>-1</span><span>0</span><span>1</span><span>2</span></div>
+      <canvas id="rPlot" width="500" height="280" class="mt-3"></canvas>
+      <div id="rInfo" class="pattern-box text-sm mt-3"></div>
+    </div>
+  </div>
+
+  <!-- Quiz 3 -->
+  <div class="mt-10">
+    <h3 class="text-xl mb-3">✏️ Quick check</h3>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="pattern-box quiz" data-quiz="q3a">
+        <p class="font-bold mb-3">Q3a. $\displaystyle \lim_{n\to\infty}\left(-\frac{2}{3}\right)^n = ?$</p>
+        <button class="quiz-opt" data-c="0">$-1$</button>
+        <button class="quiz-opt" data-c="1">$0$</button>
+        <button class="quiz-opt" data-c="0">หาค่าไม่ได้</button>
+        <button class="quiz-opt" data-c="0">$-\infty$</button>
+        <p class="text-sm text-gray-600 mt-3 explain hide">$|{-}2/3| = 2/3 < 1$ → ลิมิต $= 0$</p>
+      </div>
+      <div class="pattern-box quiz" data-quiz="q3b">
+        <p class="font-bold mb-3">Q3b. $\displaystyle \lim_{n\to\infty}\frac{5}{n^3} = ?$</p>
+        <button class="quiz-opt" data-c="1">$0$</button>
+        <button class="quiz-opt" data-c="0">$5$</button>
+        <button class="quiz-opt" data-c="0">$\infty$</button>
+        <button class="quiz-opt" data-c="0">หาค่าไม่ได้</button>
+        <p class="text-sm text-gray-600 mt-3 explain hide">$5 \cdot \dfrac{1}{n^3} \to 5 \cdot 0 = 0$</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 4: ทฤษฎีบทลิมิต ========= -->
+<section id="s4" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">04</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 4</div>
+      <h2 class="text-3xl">ทฤษฎีบทลิมิต — Limit Laws</h2>
+      <p class="text-gray-600 mt-2">เครื่องมือ 5 ข้อ · ใช้แตกลิมิตเป็นชิ้นย่อย</p>
+    </div>
+  </div>
+
+  <p>ถ้า $\displaystyle\lim_{n\to\infty} a_n = A$ และ $\displaystyle\lim_{n\to\infty} b_n = B$ <strong>(ทั้งคู่ลู่เข้า)</strong> แล้ว:</p>
+
+  <div class="grid md:grid-cols-2 gap-4 mt-6">
+    <div class="pattern-box">
+      <div class="font-bold">1. Sum / Difference</div>
+      <div class="text-lg my-2">$\lim (a_n \pm b_n) = A \pm B$</div>
+      <div class="text-xs text-gray-600">ตัวอย่าง: $\lim\left(\frac{1}{n} + 3\right) = 0 + 3 = 3$</div>
+    </div>
+    <div class="pattern-box">
+      <div class="font-bold">2. Constant Multiple</div>
+      <div class="text-lg my-2">$\lim (c \cdot a_n) = c \cdot A$</div>
+      <div class="text-xs text-gray-600">ตัวอย่าง: $\lim \dfrac{7}{n^2} = 7 \cdot 0 = 0$</div>
+    </div>
+    <div class="pattern-box">
+      <div class="font-bold">3. Product</div>
+      <div class="text-lg my-2">$\lim (a_n \cdot b_n) = A \cdot B$</div>
+      <div class="text-xs text-gray-600">ตัวอย่าง: $\lim \left(\frac{1}{n} \cdot \frac{1}{n}\right) = 0 \cdot 0 = 0$</div>
+    </div>
+    <div class="pattern-box">
+      <div class="font-bold">4. Quotient (b ≠ 0)</div>
+      <div class="text-lg my-2">$\lim \dfrac{a_n}{b_n} = \dfrac{A}{B}$ <span class="text-sm">(ถ้า $B \neq 0$)</span></div>
+      <div class="text-xs text-gray-600">ใช้กับฟังก์ชันตรรกยะ — ดู Section 5</div>
+    </div>
+    <div class="pattern-box md:col-span-2">
+      <div class="font-bold">5. Power</div>
+      <div class="text-lg my-2">$\lim (a_n)^k = A^k$ <span class="text-sm">(เมื่อ $k$ เป็นจำนวนเต็มบวก)</span></div>
+      <div class="text-xs text-gray-600">ตัวอย่าง: $\lim \left(2 + \frac{1}{n}\right)^3 = 2^3 = 8$</div>
+    </div>
+  </div>
+
+  <div class="danger-box mt-6">
+    <div class="font-bold mb-2"><span class="coach-tag">⚠️ กับดัก!</span></div>
+    <p class="text-sm">ทฤษฎีบทใช้ได้ <strong>เฉพาะเมื่อทั้ง $a_n$ และ $b_n$ ลู่เข้า</strong> เท่านั้น</p>
+    <p class="text-sm mt-2">เช่น $\lim n - \lim n$ <strong>ไม่ใช่</strong> $\infty - \infty = 0$ — รูปแบบนี้ <em>หาค่าไม่ได้โดยตรง</em> ต้องจัดรูปก่อน (Section 6)</p>
+  </div>
+
+  <h3 class="text-xl mb-3 mt-8">📝 ตัวอย่างการใช้งาน</h3>
+  <div class="concept-box">
+    <p class="font-bold">หาค่า $\displaystyle \lim_{n\to\infty}\left(5 - \frac{2}{n} + \frac{3}{n^2}\right)$</p>
+    <div class="step active mt-3">แตกลิมิตด้วยกฎ Sum: $= \lim 5 - \lim \dfrac{2}{n} + \lim \dfrac{3}{n^2}$</div>
+    <div class="step">ใช้กฎ Constant Multiple: $= 5 - 2 \cdot \lim \dfrac{1}{n} + 3 \cdot \lim \dfrac{1}{n^2}$</div>
+    <div class="step">ใช้สูตรพื้นฐาน $1/n^k \to 0$: $= 5 - 2(0) + 3(0)$</div>
+    <div class="step"><strong>คำตอบ:</strong> $= 5$</div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 5: ฟังก์ชันตรรกยะ ========= -->
+<section id="s5" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">05</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 5</div>
+      <h2 class="text-3xl">ลิมิตของฟังก์ชันตรรกยะ — เทคนิคหลัก</h2>
+      <p class="text-gray-600 mt-2">โจทย์ที่เจอบ่อยที่สุดในข้อสอบ A-Level</p>
+    </div>
+  </div>
+
+  <h3 class="text-xl mb-3">🔑 กฎ "หารด้วยกำลังสูงสุดของส่วน"</h3>
+  <p>เมื่อพบ $\displaystyle\lim_{n\to\infty} \dfrac{p(n)}{q(n)}$ ที่เป็นพหุนาม — ให้หารทั้งเศษและส่วนด้วย $n^k$ โดย $k$ คือกำลังสูงสุดของ <u>ส่วน</u></p>
+
+  <div class="grid md:grid-cols-3 gap-4 mt-6">
+    <div class="concept-box">
+      <div class="font-bold">Case A: deg(เศษ) < deg(ส่วน)</div>
+      <p class="text-sm mt-2">ลิมิต $= 0$</p>
+      <div class="mono text-sm mt-2">$\lim \dfrac{n+1}{n^2+3} = 0$</div>
+    </div>
+    <div class="concept-box">
+      <div class="font-bold">Case B: deg(เศษ) = deg(ส่วน)</div>
+      <p class="text-sm mt-2">ลิมิต = อัตราส่วนสัมประสิทธิ์นำ</p>
+      <div class="mono text-sm mt-2">$\lim \dfrac{3n^2+1}{2n^2-n} = \dfrac{3}{2}$</div>
+    </div>
+    <div class="concept-box">
+      <div class="font-bold">Case C: deg(เศษ) > deg(ส่วน)</div>
+      <p class="text-sm mt-2">หาค่าไม่ได้ ($\pm\infty$)</p>
+      <div class="mono text-sm mt-2">$\lim \dfrac{n^3}{n+1}$ = หาค่าไม่ได้</div>
+    </div>
+  </div>
+
+  <div class="pattern-box mt-6">
+    <div class="font-bold mb-2"><span class="coach-tag">⚡ Shortcut</span></div>
+    <p class="text-sm">เห็นโจทย์ตรรกยะ → <strong>เทียบดีกรีก่อน</strong> รู้คำตอบทันทีว่าจะเป็น 0, ค่าจริง, หรือหาค่าไม่ได้ — ค่อยทำงานละเอียดเฉพาะ Case B</p>
+  </div>
+
+  <!-- Step Solver -->
+  <div class="mt-10">
+    <h3 class="text-xl mb-3">🛠 Step-by-Step Solver</h3>
+    <p class="text-sm text-gray-600 mb-3">เลือกโจทย์แล้วกด "แสดงขั้นตอน"</p>
+    <div class="flex flex-wrap gap-2 mb-4">
+      <button class="btn btn-ghost text-sm" data-solve="0">$\lim \dfrac{2n+3}{5n-1}$</button>
+      <button class="btn btn-ghost text-sm" data-solve="1">$\lim \dfrac{n^2-4}{2n^2+n+1}$</button>
+      <button class="btn btn-ghost text-sm" data-solve="2">$\lim \dfrac{3n+5}{n^2-1}$</button>
+      <button class="btn btn-ghost text-sm" data-solve="3">$\lim \dfrac{4n^3-n}{2n^3+5}$</button>
+      <button class="btn btn-ghost text-sm" data-solve="4">$\lim \dfrac{n^2+1}{n+3}$</button>
+    </div>
+    <div id="solverOut" class="concept-box min-h-[200px]">
+      <p class="text-gray-500 text-sm">→ เลือกโจทย์ด้านบน</p>
+    </div>
+  </div>
+
+  <!-- Quiz 5 -->
+  <div class="mt-10">
+    <h3 class="text-xl mb-3">✏️ Quick check</h3>
+    <div class="pattern-box quiz" data-quiz="q5">
+      <p class="font-bold mb-3">Q5. $\displaystyle \lim_{n\to\infty}\dfrac{6n^3 - 2n + 1}{3n^3 + n^2}$ มีค่าเท่าใด?</p>
+      <button class="quiz-opt" data-c="0">$0$</button>
+      <button class="quiz-opt" data-c="0">$3$</button>
+      <button class="quiz-opt" data-c="1">$2$</button>
+      <button class="quiz-opt" data-c="0">หาค่าไม่ได้</button>
+      <p class="text-sm text-gray-600 mt-3 explain hide">เศษ-ส่วนดีกรีเท่ากัน (3) → อัตราส่วนสัมประสิทธิ์นำ $= 6/3 = 2$</p>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 6: จัดรูป ========= -->
+<section id="s6" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">06</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 6</div>
+      <h2 class="text-3xl">ลิมิตที่ <u>ต้องจัดรูป</u> ก่อน</h2>
+      <p class="text-gray-600 mt-2">รูปแบบ $\infty - \infty$ · เครื่องหมายติดราก · ขั้นสูง</p>
+    </div>
+  </div>
+
+  <h3 class="text-xl mb-3">🔑 รูปแบบ $\infty - \infty$ (ผลต่างที่ติดราก)</h3>
+  <p>เช่น $\displaystyle\lim_{n\to\infty}\left(\sqrt{n^2+n} - n\right)$ — ใช้สูตร <strong>คอนจูเกต</strong> (conjugate) คูณทั้งบนและล่าง</p>
+
+  <div class="concept-box">
+    <p class="font-bold">หาค่า $\displaystyle \lim_{n\to\infty}\left(\sqrt{n^2+n} - n\right)$</p>
+    <div class="step active mt-3">คูณคอนจูเกต $\sqrt{n^2+n}+n$ ทั้งบนและล่าง:
+      $$= \lim \frac{(\sqrt{n^2+n}-n)(\sqrt{n^2+n}+n)}{\sqrt{n^2+n}+n}$$
+    </div>
+    <div class="step">เศษเป็น $(a-b)(a+b) = a^2 - b^2$:
+      $$= \lim \frac{(n^2+n) - n^2}{\sqrt{n^2+n}+n} = \lim \frac{n}{\sqrt{n^2+n}+n}$$
+    </div>
+    <div class="step">หารทุกพจน์ด้วย $n$:
+      $$= \lim \frac{1}{\sqrt{1 + 1/n} + 1}$$
+    </div>
+    <div class="step">$1/n \to 0$ ดังนั้น:
+      $$= \frac{1}{\sqrt{1+0}+1} = \frac{1}{2}$$
+    </div>
+  </div>
+
+  <div class="pattern-box mt-6">
+    <div class="font-bold mb-2">📌 จำได้สั้นๆ</div>
+    <ul class="list-disc list-inside text-sm space-y-1">
+      <li>เห็น $\sqrt{} - \sqrt{}$ หรือ $\sqrt{} - n$ → คูณคอนจูเกต</li>
+      <li>คอนจูเกตของ $a - b$ คือ $a + b$</li>
+      <li>หลังคูณแล้วใช้ $(a-b)(a+b)=a^2-b^2$ → รากหายไป</li>
+      <li>ค่อยหารด้วยกำลังสูงสุดของ $n$</li>
+    </ul>
+  </div>
+
+  <h3 class="text-xl mb-3 mt-8">🔑 รูปแบบ $\dfrac{r_1^n}{r_2^n}$ — หารด้วย $r$ ที่ใหญ่กว่า</h3>
+  <div class="concept-box">
+    <p class="font-bold">หาค่า $\displaystyle \lim_{n\to\infty}\frac{2^n + 3^n}{3^n + 4^n}$</p>
+    <div class="step active mt-3">หารทั้งบน-ล่างด้วย $4^n$ (ใหญ่สุด):
+      $$= \lim \frac{(1/2)^n + (3/4)^n}{(3/4)^n + 1}$$
+    </div>
+    <div class="step">$|r| < 1$ ทุกตัว → $\to 0$:
+      $$= \frac{0+0}{0+1} = 0$$
+    </div>
+  </div>
+
+  <!-- Quiz 6 -->
+  <div class="mt-10">
+    <h3 class="text-xl mb-3">✏️ Quick check</h3>
+    <div class="pattern-box quiz" data-quiz="q6">
+      <p class="font-bold mb-3">Q6. $\displaystyle \lim_{n\to\infty}\left(\sqrt{n^2+4n} - n\right)$ มีค่าเท่าใด?</p>
+      <button class="quiz-opt" data-c="0">$0$</button>
+      <button class="quiz-opt" data-c="0">$1$</button>
+      <button class="quiz-opt" data-c="1">$2$</button>
+      <button class="quiz-opt" data-c="0">$4$</button>
+      <p class="text-sm text-gray-600 mt-3 explain hide">คูณคอนจูเกต → $\dfrac{4n}{\sqrt{n^2+4n}+n}$ → หาร $n$ → $\dfrac{4}{\sqrt{1+4/n}+1} \to \dfrac{4}{2} = 2$</p>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 7: อนุกรมอนันต์ ========= -->
+<section id="s7" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">07</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 7</div>
+      <h2 class="text-3xl">อนุกรมอนันต์ — Infinite Series</h2>
+      <p class="text-gray-600 mt-2">การบวกพจน์ลำดับไม่รู้จบ — มี/ไม่มีคำตอบ</p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <div>
+      <h3 class="text-xl mb-3">📐 นิยาม</h3>
+      <p>กำหนดลำดับ $\{a_n\}$ — <strong>อนุกรมอนันต์</strong> คือผลบวกทั้งหมด:</p>
+      <div class="text-center text-xl my-3 mono">$\displaystyle \sum_{n=1}^{\infty} a_n = a_1 + a_2 + a_3 + \dots$</div>
+
+      <p><strong>ผลบวกย่อย</strong> (partial sum): $S_n = a_1 + a_2 + \dots + a_n$</p>
+
+      <div class="concept-box mt-3">
+        <p class="font-bold">ผลบวกของอนุกรม:</p>
+        <div class="text-center text-lg my-2 mono">$S = \displaystyle\lim_{n\to\infty} S_n$</div>
+        <ul class="text-sm list-disc list-inside">
+          <li>ถ้า $\lim S_n$ <strong>มีค่าจริง</strong> → อนุกรม <strong>ลู่เข้า</strong> (convergent) มีผลบวก $S$</li>
+          <li>ถ้า $\lim S_n$ <strong>หาค่าไม่ได้</strong> → อนุกรม <strong>ลู่ออก</strong> (divergent) ไม่มีผลบวก</li>
+        </ul>
+      </div>
+
+      <h3 class="text-xl mb-3 mt-6">⚠️ Test ลู่ออก (Divergence Test)</h3>
+      <div class="danger-box">
+        <p>ถ้า $\displaystyle\lim_{n\to\infty} a_n \neq 0$ — อนุกรม $\sum a_n$ <strong>ลู่ออก</strong> เสมอ</p>
+        <p class="text-sm mt-2 text-gray-600"><strong>ระวัง:</strong> ในทางกลับกัน <em>ไม่</em> เป็นจริง — $\lim a_n = 0$ <strong>ไม่ได้</strong> แปลว่าอนุกรมลู่เข้า (เช่น $\sum 1/n$ ลู่ออก แม้ $1/n \to 0$)</p>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-xl mb-3">🎮 Partial Sum Visualizer</h3>
+      <p class="text-sm text-gray-600 mb-3">เลื่อน $n$ เพื่อดู $S_n$ เข้าใกล้ $S$ ไหม</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button class="btn btn-ghost text-sm" data-series="geo-half">$\sum (1/2)^n$</button>
+        <button class="btn btn-ghost text-sm" data-series="geo-third">$\sum (1/3)^n$</button>
+        <button class="btn btn-ghost text-sm" data-series="harmonic">$\sum 1/n$ (ลู่ออก)</button>
+        <button class="btn btn-ghost text-sm" data-series="alt">$\sum (-1)^{n+1}$ (ลู่ออก)</button>
+      </div>
+      <canvas id="seriesPlot" width="500" height="280"></canvas>
+      <div class="mt-2 text-sm text-gray-600">
+        n: <span id="seriesN" class="mono font-bold">10</span>
+        <input type="range" id="seriesRange" min="1" max="50" value="10" class="w-full mt-1">
+      </div>
+      <div id="seriesInfo" class="pattern-box text-sm"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 8: อนุกรมเรขาคณิตอนันต์ ========= -->
+<section id="s8" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">08</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 8</div>
+      <h2 class="text-3xl">อนุกรมเรขาคณิตอนันต์ — สูตรเด็ด</h2>
+      <p class="text-gray-600 mt-2">สูตรเดียวที่ <u>ต้อง</u> จำขึ้นใจ — ออกข้อสอบทุกปี</p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <div>
+      <h3 class="text-xl mb-3">📐 สูตรหลัก</h3>
+      <div class="concept-box">
+        <p>อนุกรมเรขาคณิต: $a + ar + ar^2 + ar^3 + \dots = \displaystyle\sum_{n=1}^{\infty} ar^{n-1}$</p>
+        <div class="text-center text-2xl my-4 mono">$\boxed{\,S = \dfrac{a}{1-r}\,}$ <span class="text-base">เมื่อ $|r| < 1$ เท่านั้น</span></div>
+        <p class="text-sm">เมื่อ <strong>$|r| \geq 1$</strong> — อนุกรมลู่ออก ไม่มีผลบวก</p>
+      </div>
+
+      <div class="pattern-box">
+        <div class="font-bold mb-2">📌 ใช้ยังไง 3 ขั้น</div>
+        <ol class="list-decimal list-inside text-sm space-y-1">
+          <li>หา $a$ (พจน์แรก)</li>
+          <li>หา $r$ = พจน์ถัดไป $\div$ พจน์ปัจจุบัน</li>
+          <li>เช็ค $|r| < 1$? — ถ้าใช่ ใช้สูตร · ถ้าไม่ ตอบ "หาผลบวกไม่ได้"</li>
+        </ol>
+      </div>
+
+      <h3 class="text-xl mb-3 mt-6">📝 ตัวอย่าง</h3>
+      <div class="concept-box">
+        <p class="font-bold">หา $S$ ของ $4 + 2 + 1 + \dfrac{1}{2} + \dots$</p>
+        <div class="step active mt-3">$a = 4$ · $r = 2/4 = 1/2$</div>
+        <div class="step">$|r| = 1/2 < 1$ ✓ ใช้สูตรได้</div>
+        <div class="step">$S = \dfrac{4}{1 - 1/2} = \dfrac{4}{1/2} = 8$</div>
+      </div>
+
+      <h3 class="text-xl mb-3 mt-6">🎯 Application: ทศนิยมซ้ำ</h3>
+      <div class="concept-box">
+        <p class="font-bold">เปลี่ยน $0.\overline{27} = 0.272727\dots$ ให้เป็นเศษส่วน</p>
+        <div class="step active mt-3">เขียนเป็นอนุกรม: $\dfrac{27}{100} + \dfrac{27}{10000} + \dfrac{27}{1000000} + \dots$</div>
+        <div class="step">$a = 27/100$ · $r = 1/100$</div>
+        <div class="step">$S = \dfrac{27/100}{1 - 1/100} = \dfrac{27/100}{99/100} = \dfrac{27}{99} = \dfrac{3}{11}$</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-xl mb-3">🎮 Geometric Series Visualizer</h3>
+      <p class="text-sm text-gray-600 mb-3">เลือก $a, r$ — ดูบล็อกซ้อนกันเข้าหา $S$</p>
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div>
+          <label class="text-sm">a = <span id="geoA" class="mono font-bold">1</span></label>
+          <input type="range" id="geoARange" min="0.5" max="5" step="0.5" value="1" class="w-full">
+        </div>
+        <div>
+          <label class="text-sm">r = <span id="geoR" class="mono font-bold">0.5</span></label>
+          <input type="range" id="geoRRange" min="-0.95" max="0.95" step="0.05" value="0.5" class="w-full">
+        </div>
+      </div>
+      <canvas id="geoPlot" width="500" height="320"></canvas>
+      <div id="geoInfo" class="pattern-box text-sm"></div>
+    </div>
+  </div>
+
+  <!-- Quiz 8 -->
+  <div class="mt-10">
+    <h3 class="text-xl mb-3">✏️ Quick check</h3>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="pattern-box quiz" data-quiz="q8a">
+        <p class="font-bold mb-3">Q8a. ผลบวก $9 + 3 + 1 + \dfrac{1}{3} + \dots = ?$</p>
+        <button class="quiz-opt" data-c="0">$12$</button>
+        <button class="quiz-opt" data-c="0">$\dfrac{27}{4}$</button>
+        <button class="quiz-opt" data-c="1">$\dfrac{27}{2}$</button>
+        <button class="quiz-opt" data-c="0">หาค่าไม่ได้</button>
+        <p class="text-sm text-gray-600 mt-3 explain hide">$a = 9, r = 1/3$ → $S = \dfrac{9}{1-1/3} = \dfrac{9}{2/3} = \dfrac{27}{2}$</p>
+      </div>
+      <div class="pattern-box quiz" data-quiz="q8b">
+        <p class="font-bold mb-3">Q8b. $0.\overline{6}$ เท่ากับเศษส่วนใด?</p>
+        <button class="quiz-opt" data-c="0">$3/5$</button>
+        <button class="quiz-opt" data-c="1">$2/3$</button>
+        <button class="quiz-opt" data-c="0">$6/11$</button>
+        <button class="quiz-opt" data-c="0">$5/9$</button>
+        <p class="text-sm text-gray-600 mt-3 explain hide">$a = 6/10, r = 1/10$ → $S = \dfrac{6/10}{9/10} = \dfrac{6}{9} = \dfrac{2}{3}$</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= SECTION 9: A-LEVEL DRILL ========= -->
+<section id="s9" class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">09</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Section 9</div>
+      <h2 class="text-3xl">โจทย์สไตล์ A-Level — ลงสนามจริง</h2>
+      <p class="text-gray-600 mt-2">10 ข้อ · ตอบเสร็จดูเฉลย step-by-step</p>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-center mb-4">
+    <div class="text-sm text-gray-600">คะแนน: <span id="aScore" class="font-bold mono">0</span> / <span id="aTotal" class="mono">10</span></div>
+    <button id="aReset" class="btn btn-ghost text-sm">รีเซ็ต</button>
+  </div>
+
+  <div id="alevelDrills"></div>
+</section>
+
+<hr class="border-gray-200 my-8 max-w-6xl mx-auto">
+
+<!-- ========= CHEAT SHEET ========= -->
+<section id="cheat" class="max-w-6xl mx-auto px-6 py-12 cheat-sheet">
+  <div class="flex items-start gap-6 mb-8">
+    <div class="section-num">📋</div>
+    <div>
+      <div class="text-sm text-gray-500 uppercase tracking-wider">Cheat Sheet</div>
+      <h2 class="text-3xl">สูตร · เทคนิค · กับดัก</h2>
+      <p class="text-gray-600 mt-2">หน้าเดียวจบ · กดพิมพ์เก็บไว้ทบทวน</p>
+    </div>
+  </div>
+
+  <div class="flex justify-end mb-4 no-print">
+    <button onclick="window.print()" class="btn btn-red">🖨 พิมพ์ Cheat Sheet</button>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="concept-box">
+      <h3 class="font-bold text-lg mb-2">📌 สูตรพื้นฐาน</h3>
+      <ul class="space-y-2 text-sm">
+        <li>$\lim c = c$</li>
+        <li>$\lim \dfrac{1}{n^k} = 0$ ($k > 0$)</li>
+        <li>$\lim r^n = 0$ ($|r| < 1$)</li>
+        <li>$\lim r^n = 1$ ($r = 1$)</li>
+        <li>$\lim r^n$ หาค่าไม่ได้ ($|r| > 1$ หรือ $r = -1$)</li>
+      </ul>
+    </div>
+
+    <div class="concept-box">
+      <h3 class="font-bold text-lg mb-2">🧮 ทฤษฎีบทลิมิต (a, b ลู่เข้า)</h3>
+      <ul class="space-y-2 text-sm">
+        <li>$\lim(a_n \pm b_n) = A \pm B$</li>
+        <li>$\lim(c \cdot a_n) = c \cdot A$</li>
+        <li>$\lim(a_n \cdot b_n) = A \cdot B$</li>
+        <li>$\lim(a_n / b_n) = A/B$ ($B \neq 0$)</li>
+        <li>$\lim(a_n)^k = A^k$</li>
+      </ul>
+    </div>
+
+    <div class="concept-box">
+      <h3 class="font-bold text-lg mb-2">⚡ ฟังก์ชันตรรกยะ — 3 Cases</h3>
+      <ul class="space-y-2 text-sm">
+        <li><strong>เศษ < ส่วน:</strong> ลิมิต $= 0$</li>
+        <li><strong>เศษ = ส่วน:</strong> สัมประสิทธิ์นำ ÷ สัมประสิทธิ์นำ</li>
+        <li><strong>เศษ > ส่วน:</strong> หาค่าไม่ได้</li>
+      </ul>
+      <p class="text-xs text-gray-600 mt-2">วิธี: หารทุกพจน์ด้วย $n^k$ (k = ดีกรีสูงสุดของส่วน)</p>
+    </div>
+
+    <div class="concept-box">
+      <h3 class="font-bold text-lg mb-2">🔧 จัดรูปก่อนใส่ลิมิต</h3>
+      <ul class="space-y-2 text-sm">
+        <li><strong>$\sqrt{} - \sqrt{}$ หรือ $\sqrt{} - n$:</strong> คูณคอนจูเกต</li>
+        <li><strong>$r_1^n + r_2^n$ ในเศษและส่วน:</strong> หารด้วย $r$ ที่ใหญ่ที่สุด</li>
+        <li><strong>$\infty - \infty$:</strong> รวม/แยกพจน์ก่อน</li>
+      </ul>
+    </div>
+
+    <div class="concept-box">
+      <h3 class="font-bold text-lg mb-2">📐 อนุกรมเรขาคณิตอนันต์</h3>
+      <div class="text-center text-xl my-2 mono">$S = \dfrac{a}{1-r}$ เมื่อ $|r| < 1$</div>
+      <ul class="space-y-1 text-sm">
+        <li>$a$ = พจน์แรก</li>
+        <li>$r$ = อัตราส่วนร่วม (พจน์ถัดไป ÷ พจน์ปัจจุบัน)</li>
+        <li>$|r| \geq 1$ → หาผลบวกไม่ได้</li>
+      </ul>
+    </div>
+
+    <div class="concept-box">
+      <h3 class="font-bold text-lg mb-2">⚠️ กับดักที่ออกบ่อย</h3>
+      <ul class="space-y-2 text-sm">
+        <li>$(-0.5)^n \to 0$ (ติดลบไม่ใช่ปัญหา ขอแค่ $|r|<1$)</li>
+        <li>$\lim a_n = 0$ <em>ไม่ได้</em> แปลว่า $\sum a_n$ ลู่เข้า</li>
+        <li>ทฤษฎีบทใช้ได้เฉพาะตอน <strong>ทั้งคู่ลู่เข้า</strong></li>
+        <li>ดีกรีเท่ากัน → ลิมิตคือ <strong>อัตราส่วนสัมประสิทธิ์นำ</strong> ไม่ใช่ค่าคงตัวอื่น</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="text-center mt-12 text-gray-500 text-sm">
+    <p>— จัดทำโดย ครูเต้ย · รักดีติวเตอร์ —</p>
+    <p class="mt-1"><strong>คณิต = ระบบคิด · สอนคิด ไม่ใช่ท่อง</strong></p>
+    <p class="mt-3">LINE: @rakdeeedu · Tel: 064-243-9989</p>
+  </div>
+</section>
+
+<footer class="border-t border-gray-200 mt-16 py-8 text-center text-sm text-gray-500 no-print">
+  <p>© Rakdee Tutor · A-Level คณิต 1 · ลิมิตของลำดับอนันต์</p>
+</footer>
+
+<!-- ========================== JAVASCRIPT ========================== -->
+<script>
+/* =================== Helper =================== */
+const $ = (s,el=document) => el.querySelector(s);
+const $$ = (s,el=document) => [...el.querySelectorAll(s)];
+
+function rerenderMath(el){
+  if(window.renderMathInElement){
+    renderMathInElement(el,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false},
+      {left:'\\(',right:'\\)',display:false},
+      {left:'\\[',right:'\\]',display:true}
+    ],throwOnError:false});
+  }
+}
+
+/* =================== Section 1: Sequence Plot =================== */
+const seqFns = {
+  '1/n':       n => 1/n,
+  '(-1)^n':    n => Math.pow(-1,n),
+  'n':         n => n,
+  '(0.7)^n':   n => Math.pow(0.7,n),
+  '(1+1/n)^n': n => Math.pow(1+1/n, n),
+  'n/(n+1)':   n => n/(n+1)
+};
+const seqInfoMap = {
+  '1/n':'ลู่เข้าหา $0$ จากบน',
+  '(-1)^n':'ลู่ออก — แกว่งระหว่าง $-1$ กับ $1$',
+  'n':'ลู่ออกสู่ $+\\infty$',
+  '(0.7)^n':'ลู่เข้าหา $0$ (เพราะ $|0.7|<1$)',
+  '(1+1/n)^n':'ลู่เข้าหา $e \\approx 2.718$',
+  'n/(n+1)':'ลู่เข้าหา $1$'
+};
+let curSeq = '1/n';
+
+function drawSeq(){
+  const c = $('#seqPlot'), ctx = c.getContext('2d');
+  const W = c.width, H = c.height, P = 30;
+  ctx.clearRect(0,0,W,H);
+  const N = +$('#seqRange').value;
+  $('#seqN').textContent = N;
+  const fn = seqFns[curSeq];
+  const vals = [];
+  for(let i=1;i<=N;i++) vals.push(fn(i));
+  const finite = vals.filter(v=>isFinite(v));
+  let yMin = Math.min(...finite,0), yMax = Math.max(...finite,1);
+  if(yMax-yMin<0.5){yMax+=0.5;yMin-=0.5;}
+  const pad = (yMax-yMin)*0.1;
+  yMin-=pad; yMax+=pad;
+  const xs = i => P + (i-1)/(N-1) * (W-2*P);
+  const ys = v => H-P - (v-yMin)/(yMax-yMin) * (H-2*P);
+  // axes
+  ctx.strokeStyle='#CCCCCC'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P,P); ctx.lineTo(P,H-P); ctx.stroke();
+  // y=0
+  if(yMin<0 && yMax>0){
+    ctx.strokeStyle='#999'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(P,ys(0)); ctx.lineTo(W-P,ys(0)); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  // points
+  ctx.fillStyle='#111';
+  for(let i=1;i<=N;i++){
+    const v = fn(i); if(!isFinite(v)) continue;
+    ctx.beginPath(); ctx.arc(xs(i), ys(v), 3, 0, Math.PI*2); ctx.fill();
+  }
+  // label
+  ctx.fillStyle='#5A5A5A'; ctx.font='11px monospace';
+  ctx.fillText('n=1', P-5, H-P+15);
+  ctx.fillText('n='+N, W-P-25, H-P+15);
+  ctx.fillText(yMax.toFixed(2), 2, P+5);
+  ctx.fillText(yMin.toFixed(2), 2, H-P);
+  $('#seqInfo').innerHTML = `<strong>${curSeq}:</strong> ${seqInfoMap[curSeq]}`;
+  rerenderMath($('#seqInfo'));
+}
+$$('button[data-seq]').forEach(b => b.addEventListener('click',()=>{curSeq=b.dataset.seq; drawSeq();}));
+$('#seqRange').addEventListener('input',drawSeq);
+
+/* =================== Section 2: Convergence =================== */
+const convFns = {
+  '1/n': {f:n=>1/n, L:0, label:'$1/n \\to 0$'},
+  'n/(n+1)': {f:n=>n/(n+1), L:1, label:'$n/(n+1) \\to 1$'},
+  '(2n+1)/(n+3)': {f:n=>(2*n+1)/(n+3), L:2, label:'$(2n+1)/(n+3) \\to 2$'},
+  '(-1)^n/n': {f:n=>Math.pow(-1,n)/n, L:0, label:'$(-1)^n/n \\to 0$'},
+  '(-1)^n': {f:n=>Math.pow(-1,n), L:null, label:'$(-1)^n$ — ลู่ออก'}
+};
+let curConv = '1/n';
+
+function drawConv(){
+  const c = $('#convPlot'), ctx = c.getContext('2d');
+  const W = c.width, H = c.height, P = 30;
+  ctx.clearRect(0,0,W,H);
+  const N = +$('#convRange').value;
+  $('#convN').textContent = N;
+  const {f,L,label} = convFns[curConv];
+  const vals = [];
+  for(let i=1;i<=N;i++) vals.push(f(i));
+  let yMin = Math.min(...vals), yMax = Math.max(...vals);
+  if(L!==null){ yMin = Math.min(yMin,L); yMax = Math.max(yMax,L); }
+  if(yMax-yMin<0.5){yMax+=0.5;yMin-=0.5;}
+  const pad=(yMax-yMin)*0.15; yMin-=pad; yMax+=pad;
+  const xs = i => P + (i-1)/Math.max(N-1,1) * (W-2*P);
+  const ys = v => H-P - (v-yMin)/(yMax-yMin) * (H-2*P);
+  // L line
+  if(L!==null){
+    ctx.strokeStyle='#D72638'; ctx.lineWidth=1.5; ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(P,ys(L)); ctx.lineTo(W-P,ys(L)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#D72638'; ctx.font='12px monospace';
+    ctx.fillText('L = '+L, W-P-50, ys(L)-5);
+  }
+  // axes
+  ctx.strokeStyle='#CCCCCC'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P,P); ctx.lineTo(P,H-P); ctx.stroke();
+  // points
+  ctx.fillStyle='#111';
+  for(let i=1;i<=N;i++){
+    ctx.beginPath(); ctx.arc(xs(i), ys(f(i)), 3, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.fillStyle='#5A5A5A'; ctx.font='11px monospace';
+  ctx.fillText('n=1', P-5, H-P+15);
+  ctx.fillText('n='+N, W-P-25, H-P+15);
+  // info
+  const last = f(N);
+  let info = `<strong>${label}</strong>`;
+  if(L!==null){
+    info += `<br><span class="text-xs">$a_{${N}} = ${last.toFixed(5)}$ · ระยะห่างจาก $L$ = ${Math.abs(last-L).toFixed(6)}</span>`;
+  }else{
+    info += `<br><span class="text-xs">$a_{${N}} = ${last}$ — แกว่งไม่หยุด</span>`;
+  }
+  $('#convInfo').innerHTML = info;
+  rerenderMath($('#convInfo'));
+}
+$$('button[data-conv]').forEach(b => b.addEventListener('click',()=>{curConv=b.dataset.conv; drawConv();}));
+$('#convRange').addEventListener('input',drawConv);
+
+/* =================== Section 3: r^n explorer =================== */
+function drawR(){
+  const r = +$('#rRange').value;
+  $('#rVal').textContent = r.toFixed(2);
+  const c = $('#rPlot'), ctx = c.getContext('2d');
+  const W = c.width, H = c.height, P = 30;
+  ctx.clearRect(0,0,W,H);
+  const N = 25;
+  const vals = [];
+  for(let i=1;i<=N;i++){
+    let v = Math.pow(r,i);
+    if(!isFinite(v) || Math.abs(v)>1e6) v = Math.sign(v)*1e6;
+    vals.push(v);
+  }
+  let yMin = Math.min(...vals,0), yMax = Math.max(...vals,1);
+  if(Math.abs(yMin)>10) yMin = -Math.min(Math.abs(yMin),10);
+  if(yMax>10) yMax = 10;
+  if(yMax-yMin<1){yMax=1;yMin=-1;}
+  const pad=(yMax-yMin)*0.1; yMin-=pad; yMax+=pad;
+  const xs = i => P + (i-1)/(N-1) * (W-2*P);
+  const ys = v => {
+    const cv = Math.max(yMin,Math.min(yMax,v));
+    return H-P - (cv-yMin)/(yMax-yMin) * (H-2*P);
+  };
+  // y=0
+  if(yMin<0 && yMax>0){
+    ctx.strokeStyle='#D72638'; ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(P,ys(0)); ctx.lineTo(W-P,ys(0)); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  // axes
+  ctx.strokeStyle='#CCCCCC';
+  ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P,P); ctx.lineTo(P,H-P); ctx.stroke();
+  // points
+  ctx.fillStyle='#111';
+  for(let i=1;i<=N;i++){
+    ctx.beginPath(); ctx.arc(xs(i), ys(vals[i-1]), 3, 0, Math.PI*2); ctx.fill();
+  }
+  // info
+  let verdict, color;
+  if(Math.abs(r)<1){verdict='$|r|<1$ → $\\lim r^n = 0$ ✓ ลู่เข้าหา 0'; color='#0d7a3f';}
+  else if(r===1){verdict='$r=1$ → $\\lim r^n = 1$ ✓ คงที่'; color='#0d7a3f';}
+  else if(r===-1){verdict='$r=-1$ → ลู่ออก (แกว่ง $-1, 1, -1, 1, \\dots$)'; color='#D72638';}
+  else if(r>1){verdict='$r>1$ → ลู่ออกสู่ $+\\infty$'; color='#D72638';}
+  else {verdict='$r<-1$ → ลู่ออก (แกว่ง+โต)'; color='#D72638';}
+  $('#rInfo').innerHTML = `<div style="color:${color}"><strong>${verdict}</strong></div><div class="text-xs mt-1">$r^{25} = ${vals[24].toExponential(2)}$</div>`;
+  rerenderMath($('#rInfo'));
+}
+$('#rRange').addEventListener('input',drawR);
+
+/* =================== Section 5: Step Solver =================== */
+const solverProblems = [
+  {
+    q: '$\\displaystyle \\lim_{n\\to\\infty}\\dfrac{2n+3}{5n-1}$',
+    deg: 'เท่ากัน (1)',
+    steps: [
+      'หารทุกพจน์ด้วย $n$ (กำลังสูงสุดของส่วน): $\\displaystyle = \\lim \\dfrac{2 + 3/n}{5 - 1/n}$',
+      'ใช้ $1/n \\to 0$: $= \\dfrac{2 + 0}{5 - 0}$',
+      '$\\boxed{\\,= \\dfrac{2}{5}\\,}$'
+    ]
+  },
+  {
+    q: '$\\displaystyle \\lim_{n\\to\\infty}\\dfrac{n^2-4}{2n^2+n+1}$',
+    deg: 'เท่ากัน (2)',
+    steps: [
+      'หารทุกพจน์ด้วย $n^2$: $\\displaystyle = \\lim \\dfrac{1 - 4/n^2}{2 + 1/n + 1/n^2}$',
+      'ใช้ $1/n^k \\to 0$: $= \\dfrac{1 - 0}{2 + 0 + 0}$',
+      '$\\boxed{\\,= \\dfrac{1}{2}\\,}$'
+    ]
+  },
+  {
+    q: '$\\displaystyle \\lim_{n\\to\\infty}\\dfrac{3n+5}{n^2-1}$',
+    deg: 'เศษ < ส่วน (1 < 2)',
+    steps: [
+      'หารทุกพจน์ด้วย $n^2$: $\\displaystyle = \\lim \\dfrac{3/n + 5/n^2}{1 - 1/n^2}$',
+      'ใช้ $1/n^k \\to 0$: $= \\dfrac{0 + 0}{1 - 0}$',
+      '$\\boxed{\\,= 0\\,}$ (สอดคล้องกับกฎ Case A)'
+    ]
+  },
+  {
+    q: '$\\displaystyle \\lim_{n\\to\\infty}\\dfrac{4n^3-n}{2n^3+5}$',
+    deg: 'เท่ากัน (3)',
+    steps: [
+      'หารทุกพจน์ด้วย $n^3$: $\\displaystyle = \\lim \\dfrac{4 - 1/n^2}{2 + 5/n^3}$',
+      'ใช้ $1/n^k \\to 0$: $= \\dfrac{4 - 0}{2 + 0}$',
+      '$\\boxed{\\,= 2\\,}$'
+    ]
+  },
+  {
+    q: '$\\displaystyle \\lim_{n\\to\\infty}\\dfrac{n^2+1}{n+3}$',
+    deg: 'เศษ > ส่วน (2 > 1)',
+    steps: [
+      'หารทุกพจน์ด้วย $n$ (กำลังสูงสุดของส่วน): $\\displaystyle = \\lim \\dfrac{n + 1/n}{1 + 3/n}$',
+      'เมื่อ $n \\to \\infty$: เศษ $\\to \\infty$ · ส่วน $\\to 1$',
+      '$\\boxed{\\,\\text{หาค่าไม่ได้} \\;(+\\infty)\\,}$ (สอดคล้องกับกฎ Case C)'
+    ]
+  }
+];
+
+$$('button[data-solve]').forEach(b => b.addEventListener('click', () => {
+  const p = solverProblems[+b.dataset.solve];
+  let html = `<div class="font-bold mb-2">โจทย์: ${p.q}</div>`;
+  html += `<div class="text-sm text-gray-600 mb-3">เปรียบเทียบดีกรี: ${p.deg}</div>`;
+  p.steps.forEach((s,i) => {
+    html += `<div class="step ${i===p.steps.length-1?'active':''}"><strong>ขั้น ${i+1}:</strong> ${s}</div>`;
+  });
+  $('#solverOut').innerHTML = html;
+  rerenderMath($('#solverOut'));
+}));
+
+/* =================== Section 7: Series =================== */
+const seriesData = {
+  'geo-half': {f:n=>Math.pow(0.5,n), S:1, label:'$\\sum_{n=1}^\\infty (1/2)^n = 1$', conv:true},
+  'geo-third':{f:n=>Math.pow(1/3,n), S:0.5, label:'$\\sum_{n=1}^\\infty (1/3)^n = 1/2$', conv:true},
+  'harmonic': {f:n=>1/n, S:null, label:'$\\sum 1/n$ — ลู่ออก (เพิ่มช้าๆ ไม่หยุด)', conv:false},
+  'alt':      {f:n=>Math.pow(-1,n+1), S:null, label:'$\\sum (-1)^{n+1}$ — ลู่ออก (แกว่งระหว่าง 0,1)', conv:false}
+};
+let curSeries = 'geo-half';
+
+function drawSeries(){
+  const c = $('#seriesPlot'), ctx = c.getContext('2d');
+  const W = c.width, H = c.height, P = 30;
+  ctx.clearRect(0,0,W,H);
+  const N = +$('#seriesRange').value;
+  $('#seriesN').textContent = N;
+  const {f,S,label,conv} = seriesData[curSeries];
+  const sums = [];
+  let acc = 0;
+  for(let i=1;i<=N;i++){ acc += f(i); sums.push(acc); }
+  let yMin = Math.min(...sums,0), yMax = Math.max(...sums,1);
+  if(S!==null){ yMin=Math.min(yMin,S); yMax=Math.max(yMax,S); }
+  const pad=(yMax-yMin)*0.15||0.5; yMin-=pad; yMax+=pad;
+  const xs = i => P + (i-1)/Math.max(N-1,1) * (W-2*P);
+  const ys = v => H-P - (v-yMin)/(yMax-yMin) * (H-2*P);
+  // S line
+  if(S!==null){
+    ctx.strokeStyle='#D72638'; ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(P,ys(S)); ctx.lineTo(W-P,ys(S)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#D72638'; ctx.font='12px monospace';
+    ctx.fillText('S = '+S, W-P-50, ys(S)-5);
+  }
+  // axes
+  ctx.strokeStyle='#CCCCCC';
+  ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P,P); ctx.lineTo(P,H-P); ctx.stroke();
+  // dots
+  ctx.fillStyle='#111';
+  for(let i=1;i<=N;i++){
+    ctx.beginPath(); ctx.arc(xs(i), ys(sums[i-1]), 3, 0, Math.PI*2); ctx.fill();
+  }
+  $('#seriesInfo').innerHTML = `<strong>${label}</strong><br><span class="text-xs">$S_{${N}} = ${sums[N-1].toFixed(5)}$</span>`;
+  rerenderMath($('#seriesInfo'));
+}
+$$('button[data-series]').forEach(b => b.addEventListener('click',()=>{curSeries=b.dataset.series; drawSeries();}));
+$('#seriesRange').addEventListener('input',drawSeries);
+
+/* =================== Section 8: Geometric =================== */
+function drawGeo(){
+  const a = +$('#geoARange').value;
+  const r = +$('#geoRRange').value;
+  $('#geoA').textContent = a;
+  $('#geoR').textContent = r.toFixed(2);
+  const c = $('#geoPlot'), ctx = c.getContext('2d');
+  const W = c.width, H = c.height, P = 30;
+  ctx.clearRect(0,0,W,H);
+  const N = 25;
+  const sums = [];
+  let acc = 0;
+  for(let i=0;i<N;i++){ acc += a * Math.pow(r,i); sums.push(acc); }
+  const Sinf = a/(1-r);
+  let yMin = Math.min(...sums,0,Sinf), yMax = Math.max(...sums,Sinf);
+  const pad=(yMax-yMin)*0.15||0.5; yMin-=pad; yMax+=pad;
+  const xs = i => P + i/(N-1) * (W-2*P);
+  const ys = v => H-P - (v-yMin)/(yMax-yMin) * (H-2*P);
+  // S line
+  ctx.strokeStyle='#D72638'; ctx.setLineDash([6,4]); ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(P,ys(Sinf)); ctx.lineTo(W-P,ys(Sinf)); ctx.stroke();
+  ctx.setLineDash([]); ctx.lineWidth=1;
+  ctx.fillStyle='#D72638'; ctx.font='12px monospace';
+  ctx.fillText('S = a/(1-r) = '+Sinf.toFixed(3), W-P-180, ys(Sinf)-5);
+  // axes
+  ctx.strokeStyle='#CCCCCC';
+  ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(P,P); ctx.lineTo(P,H-P); ctx.stroke();
+  // bars (cumulative)
+  ctx.fillStyle='#2E2E2E';
+  for(let i=0;i<N;i++){
+    ctx.fillRect(xs(i)-2, ys(sums[i]), 4, H-P-ys(sums[i]));
+  }
+  $('#geoInfo').innerHTML = `<div><strong>$a = ${a}, r = ${r.toFixed(2)}$ · $S = \\dfrac{${a}}{1-(${r.toFixed(2)})} = ${Sinf.toFixed(4)}$</strong></div><div class="text-xs mt-1">$S_{${N}} = ${sums[N-1].toFixed(5)}$ · ห่างจาก $S$ = ${Math.abs(Sinf-sums[N-1]).toExponential(2)}</div>`;
+  rerenderMath($('#geoInfo'));
+}
+$('#geoARange').addEventListener('input',drawGeo);
+$('#geoRRange').addEventListener('input',drawGeo);
+
+/* =================== Quiz handler =================== */
+function bindQuizzes(root=document){
+  $$('.quiz', root).forEach(q => {
+    if(q.dataset.bound) return;
+    q.dataset.bound = '1';
+    $$('.quiz-opt', q).forEach(opt => {
+      opt.addEventListener('click', () => {
+        if(q.dataset.done) return;
+        q.dataset.done = '1';
+        const correct = opt.dataset.c === '1';
+        $$('.quiz-opt', q).forEach(o => {
+          o.classList.add('disabled');
+          if(o.dataset.c === '1') o.classList.add('correct');
+        });
+        if(!correct) opt.classList.add('wrong');
+        const ex = $('.explain', q);
+        if(ex) ex.classList.remove('hide');
+        if(q.dataset.alevel === '1' && correct){
+          aScore++;
+          $('#aScore').textContent = aScore;
+        }
+      });
+    });
+  });
+}
+
+/* =================== Section 9: A-Level Drills =================== */
+const drills = [
+  {
+    q: 'Q1. $\\displaystyle \\lim_{n\\to\\infty}\\dfrac{(2n-1)(n+3)}{3n^2+5}$',
+    opts: [['$0$',0],['$\\dfrac{2}{3}$',1],['$2$',0],['หาค่าไม่ได้',0]],
+    sol: 'กระจาย: $(2n-1)(n+3) = 2n^2 + 5n - 3$ · ดีกรีเท่ากัน(2) → อัตราส่วน $= 2/3$'
+  },
+  {
+    q: 'Q2. $\\displaystyle \\lim_{n\\to\\infty}\\dfrac{(-1)^n + n}{n+5}$',
+    opts: [['$0$',0],['$-1$',0],['$1$',1],['ไม่นิยาม',0]],
+    sol: 'หารด้วย $n$: $\\dfrac{(-1)^n/n + 1}{1+5/n} \\to \\dfrac{0+1}{1+0} = 1$ · เพราะ $(-1)^n/n \\to 0$ ตามทฤษฎีบทบีบ'
+  },
+  {
+    q: 'Q3. $\\displaystyle \\lim_{n\\to\\infty}\\left(\\sqrt{n^2+3n+1} - n\\right)$',
+    opts: [['$1$',0],['$\\dfrac{3}{2}$',1],['$3$',0],['$\\dfrac{1}{2}$',0]],
+    sol: 'คอนจูเกต → $\\dfrac{3n+1}{\\sqrt{n^2+3n+1}+n}$ · หาร $n$ → $\\dfrac{3+1/n}{\\sqrt{1+3/n+1/n^2}+1} \\to \\dfrac{3}{2}$'
+  },
+  {
+    q: 'Q4. $\\displaystyle \\lim_{n\\to\\infty}\\dfrac{3^n - 2^n}{3^{n+1} + 2^{n+1}}$',
+    opts: [['$0$',0],['$\\dfrac{1}{3}$',1],['$1$',0],['$3$',0]],
+    sol: 'หาร $3^n$ ทั้งบน-ล่าง: $\\dfrac{1 - (2/3)^n}{3 + 2(2/3)^n} \\to \\dfrac{1-0}{3+0} = \\dfrac{1}{3}$'
+  },
+  {
+    q: 'Q5. ผลบวก $\\sum_{n=1}^\\infty \\dfrac{2}{3^n} = ?$',
+    opts: [['$\\dfrac{2}{3}$',0],['$1$',1],['$\\dfrac{3}{2}$',0],['$2$',0]],
+    sol: '$a = 2/3, r = 1/3$ → $S = \\dfrac{2/3}{1-1/3} = \\dfrac{2/3}{2/3} = 1$'
+  },
+  {
+    q: 'Q6. ทศนิยมซ้ำ $0.\\overline{12} = ?$',
+    opts: [['$\\dfrac{12}{99} = \\dfrac{4}{33}$',1],['$\\dfrac{12}{100}$',0],['$\\dfrac{1}{12}$',0],['$\\dfrac{6}{49}$',0]],
+    sol: '$a = 12/100, r = 1/100$ → $S = \\dfrac{12/100}{99/100} = \\dfrac{12}{99} = \\dfrac{4}{33}$'
+  },
+  {
+    q: 'Q7. ถ้า $a_n = \\dfrac{n^2+kn}{2n^2-1}$ และ $\\lim a_n = \\dfrac{1}{2}$ แล้ว $k$ มีค่าเท่าใด?',
+    opts: [['$0$',0],['ทุกค่าจริง',1],['$1$',0],['$2$',0]],
+    sol: 'ดีกรีเท่ากัน → ลิมิต $= 1/2$ เสมอ ไม่ขึ้นกับ $k$ (เพราะ $kn/n^2 = k/n \\to 0$)'
+  },
+  {
+    q: 'Q8. $\\displaystyle\\lim_{n\\to\\infty}\\dfrac{1+2+3+\\dots+n}{n^2+1} = ?$',
+    opts: [['$0$',0],['$\\dfrac{1}{2}$',1],['$1$',0],['$2$',0]],
+    sol: '$1+2+\\dots+n = \\dfrac{n(n+1)}{2}$ → $\\dfrac{n(n+1)/2}{n^2+1} = \\dfrac{n^2+n}{2n^2+2}$ ดีกรีเท่ากัน → $1/2$'
+  },
+  {
+    q: 'Q9. ลำดับเรขาคณิตอนันต์มีพจน์แรก $a$ และอัตราส่วนร่วม $r$ ถ้าผลบวก $S = 12$ และพจน์แรก $a = 8$ แล้ว $r = ?$',
+    opts: [['$\\dfrac{1}{2}$',0],['$\\dfrac{1}{3}$',1],['$\\dfrac{2}{3}$',0],['$\\dfrac{1}{4}$',0]],
+    sol: '$S = a/(1-r)$ → $12 = 8/(1-r)$ → $1-r = 8/12 = 2/3$ → $r = 1/3$'
+  },
+  {
+    q: 'Q10. $\\displaystyle \\lim_{n\\to\\infty}\\left[\\dfrac{1}{1\\cdot 2}+\\dfrac{1}{2\\cdot 3}+\\dots+\\dfrac{1}{n(n+1)}\\right] = ?$',
+    opts: [['$0$',0],['$\\dfrac{1}{2}$',0],['$1$',1],['$2$',0]],
+    sol: 'แยกเศษส่วนย่อย: $\\dfrac{1}{k(k+1)} = \\dfrac{1}{k}-\\dfrac{1}{k+1}$ → ผลบวก telescoping = $1 - \\dfrac{1}{n+1} \\to 1$'
+  }
+];
+let aScore = 0;
+
+function buildDrills(){
+  const root = $('#alevelDrills');
+  root.innerHTML = '';
+  drills.forEach((d,idx) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'pattern-box quiz';
+    wrap.dataset.alevel = '1';
+    wrap.dataset.quiz = 'a'+idx;
+    let html = `<p class="font-bold mb-3">${d.q}</p>`;
+    d.opts.forEach(([txt,c]) => {
+      html += `<button class="quiz-opt" data-c="${c}">${txt}</button>`;
+    });
+    html += `<div class="explain hide mt-3 p-3 bg-white border border-gray-200 rounded text-sm"><strong>เฉลย:</strong> ${d.sol}</div>`;
+    wrap.innerHTML = html;
+    root.appendChild(wrap);
+  });
+  $('#aTotal').textContent = drills.length;
+  bindQuizzes(root);
+  rerenderMath(root);
+}
+
+$('#aReset').addEventListener('click', () => { aScore = 0; $('#aScore').textContent = 0; buildDrills(); });
+
+/* =================== Active nav highlight =================== */
+const navLinks = $$('.nav-pill');
+const sections = navLinks.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 100;
+  let cur = sections[0];
+  sections.forEach(s => { if(s && s.offsetTop <= y) cur = s; });
+  navLinks.forEach(l => l.classList.toggle('current', l.getAttribute('href') === '#'+cur.id));
+});
+
+/* =================== Classroom Toggles =================== */
+let answersHidden = localStorage.getItem('rakdee_limit_answers_hidden') !== 'false'; // default: hidden
+let projectorOn   = localStorage.getItem('rakdee_limit_projector') === 'true';        // default: off
+
+function applyAnswersState(hidden){
+  document.documentElement.classList.toggle('answers-hidden', hidden);
+  const btn = $('#toggleAnswers');
+  if(!btn) return;
+  btn.setAttribute('aria-pressed', hidden ? 'false' : 'true');
+  btn.classList.toggle('active', !hidden);
+  btn.querySelector('.ctrl-icon').textContent = hidden ? '🔒' : '🔓';
+}
+function applyProjectorState(on){
+  document.documentElement.classList.toggle('projector', on);
+  const btn = $('#toggleProjector');
+  if(!btn) return;
+  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  btn.classList.toggle('active', on);
+}
+
+function setupToggles(){
+  applyAnswersState(answersHidden);
+  applyProjectorState(projectorOn);
+
+  $('#toggleAnswers').addEventListener('click', () => {
+    answersHidden = !answersHidden;
+    localStorage.setItem('rakdee_limit_answers_hidden', answersHidden);
+    applyAnswersState(answersHidden);
+  });
+  $('#toggleProjector').addEventListener('click', () => {
+    projectorOn = !projectorOn;
+    localStorage.setItem('rakdee_limit_projector', projectorOn);
+    applyProjectorState(projectorOn);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.matches('input, textarea, select')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const k = e.key.toLowerCase();
+    if (k === 'a') { e.preventDefault(); $('#toggleAnswers').click(); }
+    else if (k === 'p') { e.preventDefault(); $('#toggleProjector').click(); }
+  });
+}
+
+/* =================== Init =================== */
+window.addEventListener('load', () => {
+  drawSeq(); drawConv(); drawR(); drawSeries(); drawGeo();
+  buildDrills();
+  bindQuizzes();
+  setupToggles();
+  setTimeout(() => rerenderMath(document.body), 300);
+});
+</script>
+</body>
+</html>
