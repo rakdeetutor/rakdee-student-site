@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Circle Explorer — รักดีติวเตอร์ · A-Level คณิต 1</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:      '#0D0D0D',
+        surface: '#1A1A1A',
+        card:    '#242424',
+        accent:  '#D72638',
+        accentH: '#b51d2c',
+        text:    '#FFFFFF',
+        muted:   '#999999',
+        mint:    '#4ECDC4',
+        gold:    '#FFD93D',
+        rule:    '#333333',
+      },
+      fontFamily: {
+        thai:    ['"Noto Sans Thai"', 'sans-serif'],
+        mono:    ['"JetBrains Mono"', 'monospace'],
+        display: ['"Bebas Neue"', 'sans-serif'],
+      },
+    },
+  },
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+<style>
+html, body { height: 100%; }
+body {
+  font-family: 'Noto Sans Thai', sans-serif;
+  background: #0D0D0D;
+  color: #FFFFFF;
+  line-height: 1.6;
+}
+.mono    { font-family: 'JetBrains Mono', monospace; }
+.display { font-family: 'Bebas Neue', sans-serif; letter-spacing: .03em; }
+.brand-name { font-family: 'Montserrat', sans-serif; font-weight: 800; letter-spacing: .04em; font-size: 1.2rem; line-height: 1.1; }
+
+.katex { font-size: 1.05em; color: #fff; }
+
+input[type=range] {
+  accent-color: #D72638;
+  height: 6px;
+}
+input[type=checkbox] { accent-color: #D72638; }
+
+button { font-family: inherit; }
+button:focus-visible { outline: 2px solid #D72638; outline-offset: 2px; }
+
+svg text { user-select: none; }
+svg.circle-svg { touch-action: none; cursor: crosshair; }
+
+.snap-btn {
+  background: #1A1A1A;
+  border: 1px solid #333;
+  color: #fff;
+  transition: all .15s;
+}
+.snap-btn:hover { background: #242424; border-color: #D72638; }
+.snap-btn.active {
+  background: #D72638;
+  border-color: #D72638;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(215,38,56,.4);
+}
+
+.glow-point {
+  filter: drop-shadow(0 0 8px rgba(215,38,56,.7));
+}
+
+.fade-enter { opacity: 0; transform: translateY(4px); }
+
+/* Quiz options */
+.quiz-opt {
+  background: #1A1A1A;
+  color: #fff;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+.quiz-opt:hover { border-color: #777; background: #1f1f1f; }
+.quiz-opt.correct {
+  background: rgba(78,205,196,.12);
+  border-color: #4ECDC4;
+  color: #4ECDC4;
+  font-weight: 600;
+}
+.quiz-opt.wrong {
+  background: rgba(215,38,56,.12);
+  border-color: #D72638;
+  color: #D72638;
+}
+.quiz-opt.dim { opacity: .35; }
+
+.logo-img {
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+}
+</style>
+</head>
+
+<body class="bg-bg text-text">
+
+<!-- ============ HEADER ============ -->
+<header class="border-b border-rule px-4 sm:px-6 py-4 flex items-center justify-between flex-wrap gap-3">
+  <div class="flex items-center gap-3">
+    <img src="data:image/png;base64,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" alt="Rakdee Tutor" class="logo-img h-12 w-12 sm:h-14 sm:w-14 shrink-0 rounded">
+    <div class="leading-tight">
+      <div class="brand-name text-text">Rakdee Tutor</div>
+      <div class="text-muted text-[11px] sm:text-xs mono mt-0.5">A-Level คณิต 1 · ฟังก์ชันตรีโกณมิติ</div>
+    </div>
+  </div>
+  <div class="text-xs sm:text-sm text-muted mono">Module 1 / 6 — Unit Circle Explorer</div>
+</header>
+
+<!-- ============ MAIN ============ -->
+<main x-data="unitCircle()" x-init="init()" class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+  <!-- Title -->
+  <div class="mb-6">
+    <div class="text-xs sm:text-sm text-muted mb-1 mono">§1.1 ฟังก์ชันไซน์และโคไซน์</div>
+    <h1 class="text-2xl sm:text-3xl font-bold">Unit Circle Explorer</h1>
+    <p class="text-muted mt-2 text-sm sm:text-base">
+      ลากจุดบนวงกลมหนึ่งหน่วย → เห็น sin · cos · tan เปลี่ยนตามมุมแบบ real-time ·
+      เริ่มจาก <span class="text-mint mono">cos = พิกัด x</span> และ
+      <span class="text-accent mono">sin = พิกัด y</span> บนวงกลม
+    </p>
+  </div>
+
+  <div class="grid lg:grid-cols-[1fr_360px] gap-6">
+
+    <!-- ============ LEFT: CIRCLE + BIG NUMBERS ============ -->
+    <section class="bg-surface rounded-xl border border-rule p-4 sm:p-6">
+
+      <!-- Toggles -->
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mb-4 text-sm">
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input type="checkbox" x-model="showQuadrants">
+          <span>แสดง Quadrant</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input type="checkbox" x-model="showProjections">
+          <span>แสดงเส้น sin / cos</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input type="checkbox" x-model="useExact">
+          <span>ค่าตรง (เศษส่วน · ราก)</span>
+        </label>
+      </div>
+
+      <!-- SVG -->
+      <div class="relative">
+        <svg class="circle-svg w-full max-w-[600px] mx-auto block"
+             viewBox="0 0 600 600"
+             @pointerdown="onPointerDown($event)"
+             @pointermove="onPointerMove($event)"
+             @pointerup="onPointerUp($event)"
+             @pointerleave="onPointerUp($event)"
+             @pointercancel="onPointerUp($event)">
+
+          <!-- Quadrant fills + labels -->
+          <g :style="`opacity: ${showQuadrants ? 1 : 0}; transition: opacity .25s`">
+            <rect x="300" y="50"  width="250" height="250" fill="#4ECDC4" opacity="0.06"/>
+            <rect x="50"  y="50"  width="250" height="250" fill="#FFD93D" opacity="0.06"/>
+            <rect x="50"  y="300" width="250" height="250" fill="#D72638" opacity="0.06"/>
+            <rect x="300" y="300" width="250" height="250" fill="#999999" opacity="0.06"/>
+
+            <text x="490" y="100" fill="#4ECDC4" font-size="22" text-anchor="middle" font-family="Bebas Neue">I</text>
+            <text x="490" y="120" fill="#4ECDC4" font-size="11" text-anchor="middle" font-family="JetBrains Mono">sin+ cos+</text>
+
+            <text x="110" y="100" fill="#FFD93D" font-size="22" text-anchor="middle" font-family="Bebas Neue">II</text>
+            <text x="110" y="120" fill="#FFD93D" font-size="11" text-anchor="middle" font-family="JetBrains Mono">sin+ cos−</text>
+
+            <text x="110" y="510" fill="#D72638" font-size="22" text-anchor="middle" font-family="Bebas Neue">III</text>
+            <text x="110" y="530" fill="#D72638" font-size="11" text-anchor="middle" font-family="JetBrains Mono">sin− cos−</text>
+
+            <text x="490" y="510" fill="#BBBBBB" font-size="22" text-anchor="middle" font-family="Bebas Neue">IV</text>
+            <text x="490" y="530" fill="#BBBBBB" font-size="11" text-anchor="middle" font-family="JetBrains Mono">sin− cos+</text>
+          </g>
+
+          <!-- Axes -->
+          <line x1="40" y1="300" x2="560" y2="300" stroke="#555" stroke-width="1"/>
+          <line x1="300" y1="40" x2="300" y2="560" stroke="#555" stroke-width="1"/>
+
+          <!-- Tick marks -->
+          <line x1="50"  y1="296" x2="50"  y2="304" stroke="#999" stroke-width="1"/>
+          <line x1="550" y1="296" x2="550" y2="304" stroke="#999" stroke-width="1"/>
+          <line x1="296" y1="50"  x2="304" y2="50"  stroke="#999" stroke-width="1"/>
+          <line x1="296" y1="550" x2="304" y2="550" stroke="#999" stroke-width="1"/>
+
+          <text x="50"  y="322" fill="#999" font-size="11" text-anchor="middle" font-family="JetBrains Mono">−1</text>
+          <text x="550" y="322" fill="#999" font-size="11" text-anchor="middle" font-family="JetBrains Mono">1</text>
+          <text x="288" y="54"  fill="#999" font-size="11" text-anchor="end" font-family="JetBrains Mono">1</text>
+          <text x="288" y="554" fill="#999" font-size="11" text-anchor="end" font-family="JetBrains Mono">−1</text>
+
+          <text x="572" y="305" fill="#999" font-size="13" font-family="JetBrains Mono">x</text>
+          <text x="294" y="38"  fill="#999" font-size="13" text-anchor="end" font-family="JetBrains Mono">y</text>
+
+          <!-- Unit circle -->
+          <circle cx="300" cy="300" r="250" fill="none" stroke="#777" stroke-width="2"/>
+
+          <!-- Angle arc (wedge) -->
+          <polygon :points="arcPath" fill="#FFD93D" fill-opacity="0.18" stroke="#FFD93D" stroke-width="1.5"/>
+
+          <!-- Radius line -->
+          <line x1="300" y1="300" :x2="px" :y2="py" stroke="#FFFFFF" stroke-width="2.5"/>
+
+          <!-- Projections -->
+          <g x-show="showProjections">
+            <line :x1="px" :y1="py" :x2="px" y2="300" stroke="#4ECDC4" stroke-width="2" stroke-dasharray="5,4"/>
+            <line :x1="px" :y1="py" x2="300" :y2="py" stroke="#D72638" stroke-width="2" stroke-dasharray="5,4"/>
+
+            <!-- Labels (cos on x-axis, sin on y-axis) -->
+            <rect :x="px - 24" y="306" width="48" height="18" rx="3" fill="#0D0D0D" stroke="#4ECDC4" stroke-width="1"/>
+            <text :x="px" y="319" fill="#4ECDC4" font-size="11" text-anchor="middle" font-family="JetBrains Mono" font-weight="700">cos θ</text>
+
+            <rect x="252" :y="py - 9" width="44" height="18" rx="3" fill="#0D0D0D" stroke="#D72638" stroke-width="1"/>
+            <text x="274" :y="py + 4"  fill="#D72638" font-size="11" text-anchor="middle" font-family="JetBrains Mono" font-weight="700">sin θ</text>
+          </g>
+
+          <!-- θ label -->
+          <text :x="thetaLabelX" :y="thetaLabelY" fill="#FFD93D" font-size="18" font-family="JetBrains Mono" font-weight="700">θ</text>
+
+          <!-- Draggable point P -->
+          <circle :cx="px" :cy="py" r="11" fill="#FFFFFF" stroke="#D72638" stroke-width="3" class="glow-point"/>
+
+          <!-- Coordinate label near P (auto-flip to stay inside viewBox) -->
+          <g :transform="`translate(${px + coordOffX}, ${py + coordOffY})`">
+            <rect x="0" y="-12" :width="coordBoxW" height="20" rx="3" fill="#0D0D0D" stroke="#444"/>
+            <text x="6" y="3" font-size="12" font-family="JetBrains Mono">
+              <tspan fill="#888">(</tspan><tspan fill="#4ECDC4" x-text="cosDisplay"></tspan><tspan fill="#888">, </tspan><tspan fill="#D72638" x-text="sinDisplay"></tspan><tspan fill="#888">)</tspan>
+            </text>
+          </g>
+
+        </svg>
+      </div>
+
+      <!-- Big number cards -->
+      <div class="grid grid-cols-3 gap-2 sm:gap-4 mt-5">
+        <div class="bg-card rounded-lg p-3 sm:p-4 border-l-4 border-accent">
+          <div class="text-xs text-muted mb-1 mono">sin θ</div>
+          <div class="text-xl sm:text-3xl mono font-bold text-accent break-words" x-text="sinBig"></div>
+        </div>
+        <div class="bg-card rounded-lg p-3 sm:p-4 border-l-4 border-mint">
+          <div class="text-xs text-muted mb-1 mono">cos θ</div>
+          <div class="text-xl sm:text-3xl mono font-bold text-mint break-words" x-text="cosBig"></div>
+        </div>
+        <div class="bg-card rounded-lg p-3 sm:p-4 border-l-4 border-gold">
+          <div class="text-xs text-muted mb-1 mono">tan θ</div>
+          <div class="text-xl sm:text-3xl mono font-bold text-gold break-words" x-text="tanBig"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RIGHT: CONTROLS ============ -->
+    <aside class="space-y-4">
+
+      <!-- Angle card -->
+      <div class="bg-surface rounded-xl border border-rule p-5">
+        <div class="text-xs text-muted uppercase tracking-wider mb-2 mono">มุม θ</div>
+        <div class="flex items-baseline gap-3">
+          <div class="display text-5xl text-gold leading-none">
+            <span x-text="angleDegDisplay"></span><span class="text-2xl">°</span>
+          </div>
+        </div>
+        <div class="mono text-sm text-muted mt-1">
+          = <span class="text-gold" x-text="angleRadDisplay"></span> rad
+        </div>
+
+        <input type="range" min="0" max="360" step="0.5"
+               :value="angleDegRaw"
+               @input="angleDegRaw = parseFloat($event.target.value)"
+               class="w-full mt-4">
+        <div class="flex justify-between text-[10px] text-muted mt-1 mono">
+          <span>0°</span><span>90°</span><span>180°</span><span>270°</span><span>360°</span>
+        </div>
+      </div>
+
+      <!-- Coordinate -->
+      <div class="bg-surface rounded-xl border border-rule p-5">
+        <div class="text-xs text-muted uppercase tracking-wider mb-2 mono">พิกัด P</div>
+        <div class="mono text-lg">
+          P = (<span class="text-mint" x-text="cosDisplay"></span>, <span class="text-accent" x-text="sinDisplay"></span>)
+        </div>
+        <div class="text-xs text-muted mt-2">= (cos θ, sin θ)</div>
+      </div>
+
+      <!-- Snap buttons -->
+      <div class="bg-surface rounded-xl border border-rule p-5">
+        <div class="text-xs text-muted uppercase tracking-wider mb-3 mono">Snap มุมมาตรฐาน</div>
+        <div class="grid grid-cols-4 gap-2">
+          <template x-for="deg in snapAngles" :key="deg">
+            <button class="snap-btn rounded-md py-2 mono text-sm"
+                    :class="snappedAngle === deg ? 'active' : ''"
+                    @click="snapTo(deg)"
+                    x-text="deg + '°'"></button>
+          </template>
+        </div>
+      </div>
+
+      <!-- Quadrant reference -->
+      <div class="bg-surface rounded-xl border border-rule p-5">
+        <div class="text-xs text-muted uppercase tracking-wider mb-3 mono">เครื่องหมายแต่ละ Quadrant</div>
+        <div class="grid grid-cols-2 gap-2 text-xs mono">
+          <div class="bg-card rounded p-2 border border-rule"><span class="text-mint font-bold">Q I</span> · sin+ cos+ tan+</div>
+          <div class="bg-card rounded p-2 border border-rule"><span class="text-gold font-bold">Q II</span> · sin+ cos− tan−</div>
+          <div class="bg-card rounded p-2 border border-rule"><span class="text-accent font-bold">Q III</span> · sin− cos− tan+</div>
+          <div class="bg-card rounded p-2 border border-rule"><span class="text-muted font-bold">Q IV</span> · sin− cos+ tan−</div>
+        </div>
+        <div class="text-xs text-muted mt-3 leading-relaxed">
+          <span class="text-gold font-bold">🧠 ASTC:</span>
+          <span class="mono">All · Sin · Tan · Cos</span> เป็นบวกใน Q1 · Q2 · Q3 · Q4 ตามลำดับ
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ============ EXERCISES ============ -->
+  <section class="mt-10 bg-surface rounded-xl border border-rule p-5 sm:p-7">
+    <div class="flex flex-wrap items-end justify-between gap-3 mb-5 pb-4 border-b border-rule">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold">แบบฝึก — เช็คความเข้าใจ</h2>
+        <p class="text-sm text-muted mt-1">7 ข้อ · กดเลือกคำตอบ → เช็คทันที · ปุ่ม "ดูที่วงกลม" ลากวงกลมด้านบนมาให้</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="text-xs mono text-muted">
+          ทำถูก <span class="text-mint font-bold" x-text="correctCount"></span> / <span x-text="exercises.length"></span>
+        </div>
+        <button @click="resetAll()"
+                class="text-xs mono px-3 py-1.5 rounded border border-rule hover:border-accent hover:text-accent transition">
+          ล้างคำตอบ
+        </button>
+        <button @click="showAnswers = !showAnswers"
+                class="text-xs mono px-3 py-1.5 rounded border transition"
+                :class="showAnswers ? 'bg-accent border-accent text-white' : 'border-rule text-gold hover:border-gold'">
+          <span x-text="showAnswers ? 'ซ่อนเฉลย' : 'แสดงเฉลย'"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="space-y-5">
+      <template x-for="(q, idx) in exercises" :key="q.id">
+        <div class="bg-card rounded-lg p-4 sm:p-5 border border-rule">
+          <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
+            <div class="flex gap-3 flex-1 min-w-0">
+              <span class="display text-2xl text-accent shrink-0 leading-none pt-1">
+                Q<span x-text="idx + 1"></span>
+              </span>
+              <div class="font-medium leading-relaxed" x-text="q.question"></div>
+            </div>
+            <button x-show="q.snapDeg !== undefined"
+                    @click="snapTo(q.snapDeg); window.scrollTo({top: 0, behavior: 'smooth'})"
+                    class="text-xs mono px-3 py-1.5 rounded bg-bg border border-rule hover:border-gold hover:text-gold transition shrink-0">
+              🎯 ดูที่วงกลม
+            </button>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-2 mt-3">
+            <template x-for="(opt, i) in q.options" :key="i">
+              <button @click="selectOption(q.id, i)"
+                      :class="optionClass(q, i)"
+                      class="quiz-opt text-left p-3 rounded mono text-sm transition"
+                      x-text="opt"></button>
+            </template>
+          </div>
+
+          <div x-show="showAnswers || selected[q.id] !== undefined" x-transition.opacity
+               class="mt-3 p-3 bg-bg rounded-md border-l-4"
+               :class="(selected[q.id] === q.correctIdx) ? 'border-mint' : (selected[q.id] !== undefined ? 'border-accent' : 'border-gold')">
+            <div class="text-xs uppercase mono mb-1.5 tracking-wider font-bold"
+                 :class="(selected[q.id] === q.correctIdx) ? 'text-mint' : (selected[q.id] !== undefined ? 'text-accent' : 'text-gold')">
+              <span x-show="selected[q.id] === q.correctIdx">✓ ถูกต้อง</span>
+              <span x-show="selected[q.id] !== undefined && selected[q.id] !== q.correctIdx">✗ ลองคิดอีกที</span>
+              <span x-show="selected[q.id] === undefined">เฉลย</span>
+            </div>
+            <div class="text-sm">
+              <span class="text-muted">คำตอบ: </span>
+              <span class="text-mint mono font-bold" x-text="q.options[q.correctIdx]"></span>
+            </div>
+            <div class="text-sm text-muted mt-2 leading-relaxed" x-text="q.explanation"></div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ INSIGHT FOOTER ============ -->
+  <section class="mt-8 grid md:grid-cols-2 gap-4">
+    <div class="bg-surface rounded-xl border border-rule p-6">
+      <div class="flex items-start gap-3">
+        <div class="text-accent text-2xl leading-none">💡</div>
+        <div>
+          <div class="font-bold mb-2">นิยามที่ต้องจำให้ได้ — แม่จำง่ายที่สุด</div>
+          <div class="text-sm text-muted leading-relaxed">
+            บนวงกลมรัศมี 1 จุดที่มุม θ มีพิกัด
+            <span class="mono">(<span class="text-mint">cos θ</span>, <span class="text-accent">sin θ</span>)</span> เสมอ ·
+            จำตรงนี้ตัวเดียว ค่า sin · cos · tan ของมุมเด่นทุกมุมจะได้หมด ไม่ต้องท่องตาราง 60+ ค่า
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-surface rounded-xl border border-rule p-6">
+      <div class="flex items-start gap-3">
+        <div class="text-gold text-2xl leading-none">🎯</div>
+        <div>
+          <div class="font-bold mb-2">ลองทำ — เช็คความเข้าใจ</div>
+          <ul class="text-sm text-muted leading-relaxed space-y-1 list-disc list-inside">
+            <li>กด <span class="mono text-gold">120°</span> → sin · cos เป็นอะไร? ทำไม cos ติดลบ?</li>
+            <li>กด <span class="mono text-gold">90°</span> → ทำไม tan = ไม่นิยาม?</li>
+            <li>ลากผ่าน <span class="mono text-gold">0° ↔ 360°</span> → ค่า sin · cos เปลี่ยนอย่างไร?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="border-t border-rule mt-12 px-4 sm:px-6 py-6 text-muted text-xs">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <img src="data:image/png;base64,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" alt="Rakdee Tutor" class="logo-img h-8 w-8 opacity-90 rounded">
+      <span class="brand-name text-accent text-base">Rakdee Tutor</span>
+    </div>
+    <div class="mono">คณิต = ระบบคิด · A-Level คณิต 1 · Module 1 / 6</div>
+  </div>
+</footer>
+
+<!-- ============ ALPINE COMPONENT ============ -->
+<script>
+function unitCircle() {
+  return {
+    // State
+    angleDegRaw: 30,
+    isDragging: false,
+    showQuadrants: false,
+    showProjections: true,
+    useExact: true,
+
+    snapAngles: [0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330],
+
+    cx: 300, cy: 300, r: 250,
+
+    // Exercises
+    showAnswers: false,
+    selected: {},
+    exercises: [
+      {
+        id: 'q1',
+        question: 'sin 30° เท่ากับเท่าใด?',
+        options: ['1/2', '√3/2', '√2/2', '1'],
+        correctIdx: 0,
+        explanation: 'บนวงกลมหนึ่งหน่วย จุดที่มุม 30° มีพิกัด (√3/2, 1/2) — y-coord คือ sin θ = 1/2',
+        snapDeg: 30,
+      },
+      {
+        id: 'q2',
+        question: 'cos 120° เท่ากับเท่าใด?',
+        options: ['1/2', '−1/2', '√3/2', '−√3/2'],
+        correctIdx: 1,
+        explanation: '120° อยู่ Q2 → cos ติดลบ · cos 120° = −cos 60° = −1/2 (มุมอ้างอิง = 180° − 120° = 60°)',
+        snapDeg: 120,
+      },
+      {
+        id: 'q3',
+        question: 'มุม 225° อยู่ใน Quadrant ใด และเครื่องหมายของ sin · cos เป็นอย่างไร?',
+        options: ['Q I · sin+ cos+', 'Q II · sin+ cos−', 'Q III · sin− cos−', 'Q IV · sin− cos+'],
+        correctIdx: 2,
+        explanation: '225° = 180° + 45° → ข้ามครึ่งวงกลมแล้ว +45° จึงตกใน Q3 · ทั้ง sin และ cos ติดลบ',
+        snapDeg: 225,
+      },
+      {
+        id: 'q4',
+        question: 'ถ้า cos θ = 1/2 และ sin θ = −√3/2 (เมื่อ θ ∈ [0°, 360°)) แล้ว θ มีค่าเท่าใด?',
+        options: ['60°', '120°', '240°', '300°'],
+        correctIdx: 3,
+        explanation: 'cos+ และ sin− → จุดอยู่ Q4 · ค่า (1/2, √3/2) มาจากมุมอ้างอิง 60° → θ = 360° − 60° = 300°',
+        snapDeg: 300,
+      },
+      {
+        id: 'q5',
+        question: 'ใน [0°, 360°) มีกี่มุมที่ tan θ ไม่นิยาม?',
+        options: ['1 มุม', '2 มุม', '3 มุม', '4 มุม'],
+        correctIdx: 1,
+        explanation: 'tan θ = sin θ / cos θ → ไม่นิยามเมื่อ cos θ = 0 ซึ่งเกิดที่ 90° และ 270° → รวม 2 มุม',
+      },
+      {
+        id: 'q6',
+        question: 'sin 870° เท่ากับ sin ของมุมใดต่อไปนี้ (ใน [0°, 360°))?',
+        options: ['sin 30°', 'sin 150°', 'sin 210°', 'sin 330°'],
+        correctIdx: 1,
+        explanation: 'sin มีคาบ 360° → sin 870° = sin(870° − 2·360°) = sin 150°',
+        snapDeg: 150,
+      },
+      {
+        id: 'q7',
+        question: 'ค่าของ sin 150° + cos 240° เท่ากับเท่าใด?',
+        options: ['0', '1', '−1', '−1/2'],
+        correctIdx: 0,
+        explanation: 'sin 150° = 1/2 (Q2 · มุมอ้างอิง 30° · sin บวก) · cos 240° = −1/2 (Q3 · มุมอ้างอิง 60° · cos ลบ) → ผลรวม = 0',
+      },
+    ],
+
+    init() {},
+
+    get correctCount() {
+      let n = 0;
+      for (const q of this.exercises) {
+        if (this.selected[q.id] === q.correctIdx) n++;
+      }
+      return n;
+    },
+
+    selectOption(qid, i) {
+      this.selected[qid] = i;
+    },
+
+    optionClass(q, i) {
+      const sel = this.selected[q.id];
+      if (sel !== undefined) {
+        if (i === q.correctIdx) return 'correct';
+        if (sel === i) return 'wrong';
+        return 'dim';
+      }
+      if (this.showAnswers && i === q.correctIdx) return 'correct';
+      return '';
+    },
+
+    resetAll() {
+      this.selected = {};
+      this.showAnswers = false;
+    },
+
+    // ========== Computed ==========
+    get angleDeg() {
+      let d = this.angleDegRaw;
+      d = ((d % 360) + 360) % 360;
+      return d;
+    },
+    get angleRad() { return this.angleDeg * Math.PI / 180; },
+    get sinVal()   { return Math.sin(this.angleRad); },
+    get cosVal()   { return Math.cos(this.angleRad); },
+    get tanVal() {
+      const c = this.cosVal;
+      if (Math.abs(c) < 1e-10) return null;
+      return this.sinVal / c;
+    },
+    get px() { return this.cx + this.r * this.cosVal; },
+    get py() { return this.cy - this.r * this.sinVal; },
+
+    // Wedge polygon for angle indicator (sampled arc + center)
+    get arcPath() {
+      const r0 = 50;
+      const N  = 48;
+      const pts = [`${this.cx},${this.cy}`];
+      const targetRad = this.angleRad;
+      for (let i = 0; i <= N; i++) {
+        const t = (i / N) * targetRad;
+        const x = this.cx + r0 * Math.cos(t);
+        const y = this.cy - r0 * Math.sin(t);
+        pts.push(`${x.toFixed(2)},${y.toFixed(2)}`);
+      }
+      return pts.join(' ');
+    },
+
+    get thetaLabelX() {
+      const r0 = 70;
+      return this.cx + r0 * Math.cos(this.angleRad / 2);
+    },
+    get thetaLabelY() {
+      const r0 = 70;
+      return this.cy - r0 * Math.sin(this.angleRad / 2) + 6;
+    },
+
+    get snappedAngle() {
+      for (const a of this.snapAngles) {
+        if (Math.abs(this.angleDeg - a) < 0.4) return a;
+      }
+      return null;
+    },
+
+    // ========== Display ==========
+    get angleDegDisplay() {
+      const v = this.angleDeg;
+      return (Math.round(v * 10) / 10).toString().replace(/\.0$/, '');
+    },
+    get angleRadDisplay() {
+      const sa = this.snappedAngle;
+      if (sa !== null && this.useExact) {
+        const e = EXACT_RAD[sa];
+        if (e) return e;
+      }
+      return this.angleRad.toFixed(4);
+    },
+
+    get sinDisplay() {
+      const sa = this.snappedAngle;
+      if (sa !== null && this.useExact) return EXACT_TRIG[sa].sin;
+      return this.sinVal.toFixed(3);
+    },
+    get cosDisplay() {
+      const sa = this.snappedAngle;
+      if (sa !== null && this.useExact) return EXACT_TRIG[sa].cos;
+      return this.cosVal.toFixed(3);
+    },
+
+    get sinBig() {
+      const sa = this.snappedAngle;
+      if (sa !== null && this.useExact) return EXACT_TRIG[sa].sin;
+      return this.sinVal.toFixed(4);
+    },
+    get cosBig() {
+      const sa = this.snappedAngle;
+      if (sa !== null && this.useExact) return EXACT_TRIG[sa].cos;
+      return this.cosVal.toFixed(4);
+    },
+    get tanBig() {
+      const sa = this.snappedAngle;
+      if (sa !== null && this.useExact) return EXACT_TRIG[sa].tan;
+      if (this.tanVal === null) return 'undef';
+      const v = this.tanVal;
+      if (Math.abs(v) > 1000) return v > 0 ? '> 1000' : '< -1000';
+      return v.toFixed(4);
+    },
+
+    get coordBoxW() {
+      const len = (this.cosDisplay + this.sinDisplay).length;
+      return Math.max(72, len * 7 + 20);
+    },
+
+    // Auto-flip coord label so it stays inside the 0..600 viewBox
+    get coordOffX() {
+      const w = this.coordBoxW;
+      if (this.px + 14 + w > 595) return -(w + 14);
+      return 14;
+    },
+    get coordOffY() {
+      if (this.py - 26 < 5) return 24;
+      return -14;
+    },
+
+    // ========== Interaction ==========
+    onPointerDown(e) {
+      this.isDragging = true;
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+      this.updateAngleFromEvent(e);
+    },
+    onPointerMove(e) {
+      if (!this.isDragging) return;
+      this.updateAngleFromEvent(e);
+    },
+    onPointerUp(e) {
+      this.isDragging = false;
+      try { e.currentTarget.releasePointerCapture?.(e.pointerId); } catch (_) {}
+    },
+
+    updateAngleFromEvent(e) {
+      const svg = e.currentTarget;
+      const pt  = svg.createSVGPoint();
+      pt.x = e.clientX;
+      pt.y = e.clientY;
+      const ctm = svg.getScreenCTM();
+      if (!ctm) return;
+      const p = pt.matrixTransform(ctm.inverse());
+      const dx =  (p.x - this.cx);
+      const dy = -(p.y - this.cy);
+      if (dx * dx + dy * dy < 4) return;
+      let rad = Math.atan2(dy, dx);
+      if (rad < 0) rad += 2 * Math.PI;
+      let deg = rad * 180 / Math.PI;
+      for (const a of this.snapAngles) {
+        if (Math.abs(deg - a) < 2.5) { deg = a; break; }
+      }
+      this.angleDegRaw = deg;
+    },
+
+    snapTo(deg) {
+      const obj = this;
+      const start = obj.angleDegRaw;
+      let end = deg;
+      // Choose shorter angular path
+      let diff = end - start;
+      if (diff >  180) end -= 360;
+      if (diff < -180) end += 360;
+      gsap.to(obj, {
+        angleDegRaw: end,
+        duration: 0.45,
+        ease: 'power2.out',
+        onComplete: () => { obj.angleDegRaw = deg; },
+      });
+    },
+  };
+}
+
+// ========== Exact value tables ==========
+const EXACT_TRIG = {
+  0:   { sin: '0',     cos: '1',     tan: '0'     },
+  30:  { sin: '1/2',   cos: '√3/2',  tan: '√3/3'  },
+  45:  { sin: '√2/2',  cos: '√2/2',  tan: '1'     },
+  60:  { sin: '√3/2',  cos: '1/2',   tan: '√3'    },
+  90:  { sin: '1',     cos: '0',     tan: 'undef' },
+  120: { sin: '√3/2',  cos: '−1/2',  tan: '−√3'   },
+  135: { sin: '√2/2',  cos: '−√2/2', tan: '−1'    },
+  150: { sin: '1/2',   cos: '−√3/2', tan: '−√3/3' },
+  180: { sin: '0',     cos: '−1',    tan: '0'     },
+  210: { sin: '−1/2',  cos: '−√3/2', tan: '√3/3'  },
+  225: { sin: '−√2/2', cos: '−√2/2', tan: '1'     },
+  240: { sin: '−√3/2', cos: '−1/2',  tan: '√3'    },
+  270: { sin: '−1',    cos: '0',     tan: 'undef' },
+  300: { sin: '−√3/2', cos: '1/2',   tan: '−√3'   },
+  315: { sin: '−√2/2', cos: '√2/2',  tan: '−1'    },
+  330: { sin: '−1/2',  cos: '√3/2',  tan: '−√3/3' },
+};
+
+const EXACT_RAD = {
+  0: '0',      30: 'π/6',   45: 'π/4',   60: 'π/3',   90: 'π/2',
+  120: '2π/3', 135: '3π/4', 150: '5π/6', 180: 'π',
+  210: '7π/6', 225: '5π/4', 240: '4π/3', 270: '3π/2',
+  300: '5π/3', 315: '7π/4', 330: '11π/6',
+};
+</script>
+
+</body>
+</html>
