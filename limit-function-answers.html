@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="เฉลย ชีทเรียน ลิมิตของฟังก์ชัน · 22 ข้อ · A-Level คณิต 1 · Rakdee Tutor">
+<title>เฉลย — ลิมิตของฟังก์ชัน · Rakdee Tutor</title>
+
+<link rel="icon" type="image/png" href="./rakdee_logo_assets/rakdee-logo-dark-32.png">
+<link rel="apple-touch-icon" href="./rakdee_logo_assets/rakdee-logo-dark-128.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\\\(',right:'\\\\)',display:false},{left:'\\\\[',right:'\\\\]',display:true}],throwOnError:false});"></script>
+
+<style>
+:root {
+  --text: #111111;
+  --text-2: #2E2E2E;
+  --muted: #6B6B6B;
+  --border: #CCCCCC;
+  --border-soft: #E5E5E5;
+  --accent: #D72638;
+  --math: #0066CC;
+  --bg-soft: #F7F7F7;
+  --ans-bg: #FDF5F6;
+  --font-body: 'Montserrat', 'IBM Plex Sans Thai', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: #FAFAFA;
+  line-height: 1.6;
+  font-size: 14.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.toolbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 0.7rem 1.25rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+}
+.toolbar-brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--text); }
+.toolbar-brand img { height: 36px; width: auto; }
+.toolbar-brand-name { font-weight: 700; font-size: 1rem; }
+.toolbar-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: white;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn:hover { background: var(--bg-soft); border-color: var(--text); }
+.btn-primary { background: var(--text); color: white; border-color: var(--text); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+
+/* Sheet */
+.sheet {
+  max-width: 820px;
+  margin: 1.5rem auto;
+  padding: 2.5rem 2.75rem;
+  background: white;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.sheet-header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--text);
+  margin-bottom: 1.25rem;
+}
+.sheet-brand { display: flex; align-items: center; gap: 0.85rem; }
+.sheet-brand img { height: 50px; width: auto; }
+.sheet-brand-text { line-height: 1.2; }
+.sheet-brand-name { font-weight: 700; font-size: 1.05rem; }
+.sheet-brand-sub { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.sheet-meta { text-align: right; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.sheet-title { text-align: center; margin: 0.75rem 0 1.75rem; }
+.sheet-title h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+.sheet-title h1 .accent-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  font-size: 0.65em;
+  padding: 0.15em 0.7em;
+  border-radius: 99px;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+.sheet-title p { color: var(--muted); font-size: 0.92rem; letter-spacing: 0.04em; }
+
+.part {
+  margin: 1.5rem 0 0.9rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+}
+.part-num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.part-name { font-weight: 700; font-size: 1.02rem; }
+
+.answer-card {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-soft);
+  border-left: 3px solid var(--text);
+  border-radius: 0 6px 6px 0;
+  page-break-inside: avoid;
+}
+.answer-card .problem-num {
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  text-align: right;
+  padding-top: 0.05rem;
+  color: var(--text);
+}
+.answer-card .problem-num::after { content: ')'; }
+.answer-body { font-size: 0.92rem; line-height: 1.65; }
+.answer-body .question {
+  color: var(--text-2);
+  margin-bottom: 0.4rem;
+}
+.answer-body .question::before {
+  content: 'โจทย์: ';
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-right: 0.3rem;
+}
+.final-answer {
+  display: inline-block;
+  background: var(--text);
+  color: white;
+  padding: 0.2rem 0.85rem;
+  border-radius: 4px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  margin: 0.25rem 0 0.5rem;
+}
+.final-answer .label {
+  font-size: 0.66rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-right: 0.4rem;
+  font-family: var(--font-mono);
+}
+.solution {
+  margin-top: 0.4rem;
+  padding-top: 0.4rem;
+  border-top: 1px dashed var(--border);
+  font-size: 0.9rem;
+}
+.solution p { margin-bottom: 0.3rem; }
+.solution .step {
+  display: grid;
+  grid-template-columns: 3.6rem 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.solution .step-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  padding-top: 0.15rem;
+}
+.note {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.sheet-footer {
+  margin-top: 1.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+/* Print */
+@page { size: A4; margin: 1.3cm 1.4cm; }
+@media print {
+  body { background: white; font-size: 10.5pt; }
+  .toolbar, .no-print { display: none !important; }
+  .sheet { margin: 0; padding: 0; border: 0; box-shadow: none; max-width: 100%; }
+  .part { page-break-after: avoid; }
+  .answer-card { page-break-inside: avoid; }
+  h1, h2, h3 { page-break-after: avoid; }
+  .answer-card { background: #FAFAFA !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .final-answer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+@media (max-width: 640px) {
+  .sheet { padding: 1.5rem 1.25rem; margin: 0.75rem; }
+  .sheet-header { flex-direction: column; gap: 0.75rem; }
+  .sheet-meta { text-align: left; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar no-print">
+  <a href="#" class="toolbar-brand">
+    <img src="./rakdee_logo_assets/rakdee-logo-dark-128.png" alt="Rakdee Tutor">
+    <span class="toolbar-brand-name">Rakdee Tutor</span>
+  </a>
+  <div class="toolbar-actions">
+    <a href="./limit_function_practice.html" class="btn">⟵ ชีทเรียน</a>
+    <a href="./limit-function.html" class="btn">บทเรียน</a>
+    <button class="btn btn-primary" onclick="window.print()">🖨 พิมพ์ / Save PDF</button>
+  </div>
+</div>
+
+<div class="sheet">
+
+  <header class="sheet-header">
+    <div class="sheet-brand">
+      <img src="./rakdee_logo_assets/rakdee-logo-dark-128.png" alt="Rakdee Tutor">
+      <div class="sheet-brand-text">
+        <div class="sheet-brand-name">Rakdee Tutor</div>
+        <div class="sheet-brand-sub">A-Level คณิต 1 · บทที่ 2</div>
+      </div>
+    </div>
+    <div class="sheet-meta">
+      เฉลย · WS-02-ANS<br>
+      22 ข้อ · เต็ม
+    </div>
+  </header>
+
+  <div class="sheet-title">
+    <h1><span class="accent-tag">เฉลย</span>ลิมิตของฟังก์ชัน</h1>
+    <p>บทที่ 2 แคลคูลัสเบื้องต้น · หัวข้อ 2.1–2.2</p>
+  </div>
+
+  <!-- ===================== ตอนที่ 1 ===================== -->
+  <div class="part">
+    <span class="part-num">ตอนที่ 1</span>
+    <span class="part-name">ลิมิตพื้นฐาน — แทนค่าตรง</span>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">1</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 3}\bigl(2x^2 - 5x + 7\bigr)$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$10$</div>
+      <div class="solution">
+        <p>พหุนามต่อเนื่องทุกที่ → แทน $x = 3$ ได้ทันที</p>
+        <p>$= 2(3)^2 - 5(3) + 7 = 18 - 15 + 7 = 10$</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">2</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to -2}\bigl(x^3 + 4x + 3\bigr)$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$-13$</div>
+      <div class="solution">
+        <p>$= (-2)^3 + 4(-2) + 3 = -8 - 8 + 3 = -13$</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">3</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 4}\sqrt{x + 5}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$3$</div>
+      <div class="solution">
+        <p>ฟังก์ชันรากต่อเนื่องเมื่อใต้รากเป็นจำนวนบวก → แทน $x = 4$</p>
+        <p>$= \sqrt{4 + 5} = \sqrt{9} = 3$</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">4</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 1}\frac{x^2 + 2}{x + 3}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$\tfrac{3}{4}$</div>
+      <div class="solution">
+        <p>ตัวส่วน $x + 3$ ที่ $x = 1$ ได้ $4 \ne 0$ → แทนได้ทันที</p>
+        <p>$= \dfrac{1 + 2}{1 + 3} = \dfrac{3}{4}$</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ตอนที่ 2 ===================== -->
+  <div class="part">
+    <span class="part-num">ตอนที่ 2</span>
+    <span class="part-name">รูปแบบ $\tfrac{0}{0}$ — แยกตัวประกอบ</span>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">5</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 3}\frac{x^2 - 9}{x - 3}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$6$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เช็ค</span><span>แทน $x = 3$ → $\tfrac{0}{0}$ ต้องแยกตัวประกอบ</span></div>
+        <div class="step"><span class="step-label">แยก</span><span>$x^2 - 9 = (x-3)(x+3)$ → ตัด $(x-3)$ เหลือ $x + 3$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>$\lim_{x\to 3}(x+3) = 6$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">6</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to -1}\frac{x^2 + 3x + 2}{x + 1}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$1$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เช็ค</span><span>แทน $x = -1$ → $\tfrac{0}{0}$</span></div>
+        <div class="step"><span class="step-label">แยก</span><span>$x^2 + 3x + 2 = (x+1)(x+2)$ → ตัด $(x+1)$ เหลือ $x + 2$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>$\lim_{x\to -1}(x+2) = 1$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">7</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 2}\frac{x^3 - 8}{x - 2}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$12$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เช็ค</span><span>แทน $x = 2$ → $\tfrac{0}{0}$</span></div>
+        <div class="step"><span class="step-label">สูตร</span><span>$a^3 - b^3 = (a-b)(a^2 + ab + b^2)$ → $x^3 - 8 = (x-2)(x^2 + 2x + 4)$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>$\lim_{x\to 2}(x^2 + 2x + 4) = 4 + 4 + 4 = 12$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">8</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 4}\frac{x^2 - 7x + 12}{x - 4}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$1$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เช็ค</span><span>แทน $x = 4$ → $\tfrac{0}{0}$</span></div>
+        <div class="step"><span class="step-label">แยก</span><span>$x^2 - 7x + 12 = (x-3)(x-4)$ → ตัด $(x-4)$ เหลือ $x - 3$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>$\lim_{x\to 4}(x-3) = 1$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">9</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 1}\frac{x^4 - 1}{x - 1}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$4$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เช็ค</span><span>แทน $x = 1$ → $\tfrac{0}{0}$</span></div>
+        <div class="step"><span class="step-label">แยก</span><span>$x^4 - 1 = (x-1)(x^3 + x^2 + x + 1)$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>$\lim_{x\to 1}(x^3 + x^2 + x + 1) = 1 + 1 + 1 + 1 = 4$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ตอนที่ 3 ===================== -->
+  <div class="part">
+    <span class="part-num">ตอนที่ 3</span>
+    <span class="part-name">รูปแบบ $\tfrac{0}{0}$ — คูณคอนจูเกต</span>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">10</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 0}\frac{\sqrt{x+4} - 2}{x}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$\tfrac{1}{4}$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เช็ค</span><span>แทน $x = 0$ → $\tfrac{0}{0}$ มีราก → คูณคอนจูเกต $\sqrt{x+4}+2$</span></div>
+        <div class="step"><span class="step-label">คูณ</span><span>$\dfrac{(\sqrt{x+4}-2)(\sqrt{x+4}+2)}{x(\sqrt{x+4}+2)} = \dfrac{(x+4)-4}{x(\sqrt{x+4}+2)} = \dfrac{x}{x(\sqrt{x+4}+2)}$</span></div>
+        <div class="step"><span class="step-label">ตัด</span><span>$= \dfrac{1}{\sqrt{x+4}+2}$ → $\dfrac{1}{\sqrt{4}+2} = \dfrac{1}{4}$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">11</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 5}\frac{\sqrt{x-1} - 2}{x - 5}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$\tfrac{1}{4}$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">คูณ</span><span>คูณคอนจูเกต $\sqrt{x-1}+2$ ทั้งบนล่าง: $\dfrac{(x-1)-4}{(x-5)(\sqrt{x-1}+2)} = \dfrac{x-5}{(x-5)(\sqrt{x-1}+2)}$</span></div>
+        <div class="step"><span class="step-label">ตัด</span><span>$= \dfrac{1}{\sqrt{x-1}+2}$ → $\dfrac{1}{\sqrt{4}+2} = \dfrac{1}{4}$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">12</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to 3}\frac{x - 3}{\sqrt{x+1} - 2}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$4$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">คูณ</span><span>คูณคอนจูเกต $\sqrt{x+1}+2$: $\dfrac{(x-3)(\sqrt{x+1}+2)}{(x+1)-4} = \dfrac{(x-3)(\sqrt{x+1}+2)}{x-3}$</span></div>
+        <div class="step"><span class="step-label">ตัด</span><span>$= \sqrt{x+1}+2$ → $\sqrt{4}+2 = 4$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ตอนที่ 4 ===================== -->
+  <div class="part">
+    <span class="part-num">ตอนที่ 4</span>
+    <span class="part-name">ลิมิตที่อนันต์</span>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">13</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to\infty}\frac{4x^2 + 3x - 1}{2x^2 - 7}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$2$</div>
+      <div class="solution">
+        <p>ดีกรีตัวเศษ = ดีกรีตัวส่วน $(= 2)$ → ลิมิต = อัตราส่วนสัมประสิทธิ์ตัวนำ $= \tfrac{4}{2} = 2$</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">14</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to\infty}\frac{3x + 5}{x^3 + 2}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$0$</div>
+      <div class="solution">
+        <p>ดีกรีตัวเศษ $(=1) <$ ดีกรีตัวส่วน $(=3)$ → ลิมิต $= 0$</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">15</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to\infty}\frac{6x^3 - x^2 + 5}{2x^3 + 7x}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$3$</div>
+      <div class="solution">
+        <p>ดีกรีเท่ากัน $(= 3)$ → $\tfrac{6}{2} = 3$</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">16</div>
+    <div class="answer-body">
+      <div class="question">$\displaystyle\lim_{x\to\infty}\frac{(2x+1)(3x-2)}{x^2 + 4}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$6$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">กระจาย</span><span>$(2x+1)(3x-2) = 6x^2 - x - 2$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>$\dfrac{6x^2 - x - 2}{x^2 + 4}$ → ดีกรีเท่า → $\tfrac{6}{1} = 6$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ตอนที่ 5 ===================== -->
+  <div class="part">
+    <span class="part-num">ตอนที่ 5</span>
+    <span class="part-name">ลิมิตซ้าย-ขวา (Piecewise)</span>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">17</div>
+    <div class="answer-body">
+      <div class="question">$f(x) = \begin{cases} 2x+1, &amp; x &lt; 1 \\ x^2+2, &amp; x \ge 1 \end{cases}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>(ก) $3$ &nbsp;(ข) $3$ &nbsp;(ค) $3$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">ซ้าย</span><span>$x \to 1^-$ ใช้ $2x+1$ → $2(1)+1 = 3$</span></div>
+        <div class="step"><span class="step-label">ขวา</span><span>$x \to 1^+$ ใช้ $x^2+2$ → $1 + 2 = 3$</span></div>
+        <div class="step"><span class="step-label">รวม</span><span>ซ้าย $=$ ขวา $= 3$ → $\lim_{x\to 1}f(x) = 3$ (มีค่า)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">18</div>
+    <div class="answer-body">
+      <div class="question">$f(x) = \begin{cases} x^2-4, &amp; x &lt; 2 \\ 3x-5, &amp; x \ge 2 \end{cases}$ &nbsp; หา $\lim_{x\to 2}f(x)$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>ไม่มีค่า</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">ซ้าย</span><span>$x \to 2^-$ ใช้ $x^2-4$ → $4 - 4 = 0$</span></div>
+        <div class="step"><span class="step-label">ขวา</span><span>$x \to 2^+$ ใช้ $3x-5$ → $6 - 5 = 1$</span></div>
+        <div class="step"><span class="step-label">รวม</span><span>ซ้าย $\ne$ ขวา $(0 \ne 1)$ → ลิมิตไม่มีค่า (กราฟมีจุดกระโดด)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">19</div>
+    <div class="answer-body">
+      <div class="question">$f(x) = \dfrac{|x - 3|}{x - 3}$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>(ก) $-1$ &nbsp;(ข) $1$ &nbsp;(ค) ไม่มีค่า</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">ซ้าย</span><span>$x &lt; 3$ → $|x-3| = -(x-3)$ → $f(x) = \dfrac{-(x-3)}{x-3} = -1$</span></div>
+        <div class="step"><span class="step-label">ขวา</span><span>$x &gt; 3$ → $|x-3| = x-3$ → $f(x) = 1$</span></div>
+        <div class="step"><span class="step-label">รวม</span><span>ซ้าย $\ne$ ขวา → ลิมิตไม่มีค่า</span></div>
+        <p class="note">เทคนิคจำ: $\dfrac{|x-a|}{x-a}$ ใกล้ $x = a$ จะเป็น $-1$ ฝั่งซ้ายและ $+1$ ฝั่งขวาเสมอ → ไม่มีลิมิต</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ตอนที่ 6 ===================== -->
+  <div class="part">
+    <span class="part-num">ตอนที่ 6</span>
+    <span class="part-name">ความต่อเนื่อง</span>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">20</div>
+    <div class="answer-body">
+      <div class="question">$f(x) = \begin{cases} \tfrac{x^2-16}{x-4}, &amp; x \ne 4 \\ k, &amp; x = 4 \end{cases}$ &nbsp; ต่อเนื่องที่ $x = 4$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$k = 8$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เงื่อนไข</span><span>ต่อเนื่องที่ $x = 4$ ต้องมี $\lim_{x\to 4}f(x) = f(4) = k$</span></div>
+        <div class="step"><span class="step-label">แยก</span><span>$\dfrac{x^2-16}{x-4} = \dfrac{(x-4)(x+4)}{x-4} = x+4$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>$\lim_{x\to 4}(x+4) = 8$ ∴ $k = 8$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">21</div>
+    <div class="answer-body">
+      <div class="question">$f(x) = \begin{cases} ax+b, &amp; x \le 2 \\ x^2-1, &amp; x &gt; 2 \end{cases}$ &nbsp; ต่อเนื่องที่ $x = 2$ และ $f(1) = 4$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$a = -1,\ b = 5$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">ต่อเนื่อง</span><span>ที่ $x = 2$: $a(2)+b = 2^2-1 \Rightarrow 2a+b = 3$ &nbsp;…(1)</span></div>
+        <div class="step"><span class="step-label">f(1)</span><span>$f(1) = a(1)+b = 4 \Rightarrow a + b = 4$ &nbsp;…(2)</span></div>
+        <div class="step"><span class="step-label">แก้</span><span>(1) − (2): $a = -1$ &nbsp; แทนใน (2): $b = 5$</span></div>
+        <p class="note">ตรวจ: $2(-1) + 5 = 3$ ✓ &nbsp; $f(1) = -1 + 5 = 4$ ✓</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-card">
+    <div class="problem-num">22</div>
+    <div class="answer-body">
+      <div class="question">$f(x) = \begin{cases} \tfrac{\sqrt{x+7}-3}{x-2}, &amp; x \ne 2 \\ k, &amp; x = 2 \end{cases}$ &nbsp; ต่อเนื่องที่ $x = 2$</div>
+      <div class="final-answer"><span class="label">ตอบ</span>$k = \tfrac{1}{6}$</div>
+      <div class="solution">
+        <div class="step"><span class="step-label">เช็ค</span><span>แทน $x = 2$: $\sqrt{9}-3 = 0$, $x-2 = 0$ → $\tfrac{0}{0}$</span></div>
+        <div class="step"><span class="step-label">คูณ</span><span>คอนจูเกต $\sqrt{x+7}+3$: $\dfrac{(x+7)-9}{(x-2)(\sqrt{x+7}+3)} = \dfrac{x-2}{(x-2)(\sqrt{x+7}+3)}$</span></div>
+        <div class="step"><span class="step-label">ตัด</span><span>$= \dfrac{1}{\sqrt{x+7}+3}$ → $\dfrac{1}{\sqrt{9}+3} = \dfrac{1}{6}$</span></div>
+        <div class="step"><span class="step-label">ตอบ</span><span>∴ $k = \tfrac{1}{6}$</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="sheet-footer">
+    <span>Rakdee Tutor · A-Level คณิต 1 · บทที่ 2 ลิมิตของฟังก์ชัน</span>
+    <span>WS-02-ANS · v.1</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
