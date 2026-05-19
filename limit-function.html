@@ -698,6 +698,31 @@ input[type=range]::-moz-range-thumb {
 }
 .machine-arrow.active { color: var(--accent); }
 
+/* Slider tick labels — aligned to thumb center positions (compensate 10px thumb radius) */
+.slider-ticks {
+  position: relative;
+  height: 1.25em;
+  margin: 0.45rem 10px 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.slider-ticks span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.slider-ticks .tick-target {
+  color: var(--accent);
+  font-weight: 700;
+}
+.slider-ticks .tick-target::after {
+  content: ' (target)';
+  font-weight: 400;
+  color: var(--muted);
+}
+
 .machine-warning {
   background: var(--accent-soft);
   border-left: 3px solid var(--accent);
@@ -1162,8 +1187,12 @@ input[type=range]::-moz-range-thumb {
           <span class="slider-value mono"><span id="machineXSlider">1.500</span></span>
         </div>
         <input type="range" id="machineSlider" min="0" max="4" step="0.001" value="1.5" aria-label="เลื่อนค่า x">
-        <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.72rem;color:var(--muted);margin-top:.25rem;">
-          <span>0</span><span>1</span><span style="color:var(--accent);font-weight:700;">2 (target)</span><span>3</span><span>4</span>
+        <div class="slider-ticks">
+          <span style="left:0%">0</span>
+          <span style="left:25%">1</span>
+          <span style="left:50%" class="tick-target">2</span>
+          <span style="left:75%">3</span>
+          <span style="left:100%">4</span>
         </div>
       </div>
 
