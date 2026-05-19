@@ -614,6 +614,150 @@ input[type=range]::-moz-range-thumb {
 .cta-qr img { max-width: 100%; }
 @media (max-width: 600px) { .cta-block { grid-template-columns: 1fr; } .cta-qr { margin: 0 auto; } }
 
+/* ============================================
+   FUNCTION MACHINE — input → f → output
+   ============================================ */
+.machine-stage {
+  display: grid;
+  grid-template-columns: 1fr auto 1.4fr auto 1fr;
+  gap: 0.4rem;
+  align-items: stretch;
+  margin: 1.25rem 0 1rem;
+}
+.machine-box {
+  border: 2px solid var(--text);
+  border-radius: 10px;
+  padding: 1rem 0.85rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  position: relative;
+  transition: all 0.2s;
+  min-height: 130px;
+}
+.machine-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.machine-value {
+  font-family: var(--font-mono);
+  font-size: clamp(1.4rem, 3.5vw, 1.85rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  transition: color 0.2s;
+}
+.machine-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.machine-function {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+.machine-function .machine-label { color: rgba(255,255,255,0.55); }
+.machine-function .machine-formula {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: white;
+}
+.machine-function .machine-sub {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.05em;
+}
+.machine-input { background: #FAFAFA; }
+.machine-output {
+  background: var(--math-soft);
+  border-color: var(--math);
+}
+.machine-output .machine-value { color: var(--math); }
+.machine-output.warn {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.machine-output.warn .machine-value { color: var(--accent); }
+.machine-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--muted);
+  padding: 0 0.25rem;
+  font-family: var(--font-mono);
+}
+.machine-arrow.active { color: var(--accent); }
+
+.machine-warning {
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 0.85rem 1.1rem;
+  margin: 0.75rem 0 1.25rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.machine-warning strong { color: var(--accent); margin-right: 0.4rem; }
+
+.machine-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.machine-tables > div {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+}
+.machine-tables h4 {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.machine-tables h4.left-tag { color: var(--math); }
+.machine-tables h4.right-tag { color: var(--accent); }
+.approach-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.approach-table th, .approach-table td {
+  padding: 0.35rem 0.5rem;
+  text-align: right;
+}
+.approach-table th {
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.05em;
+}
+.approach-table td { border-top: 1px dashed var(--border); }
+.approach-table tr:first-of-type td { border-top: 0; }
+.approach-table td:last-child { color: var(--math); font-weight: 600; }
+@media (max-width: 640px) {
+  .machine-stage { grid-template-columns: 1fr; }
+  .machine-arrow { transform: rotate(90deg); padding: 0.3rem 0; min-height: 0; }
+  .machine-tables { grid-template-columns: 1fr; }
+}
+
 /* Hero logo */
 .hero-logo {
   height: 80px;
@@ -980,11 +1124,105 @@ input[type=range]::-moz-range-thumb {
 </section>
 
 <!-- ============================================
-     SECTION 3 — LEFT vs RIGHT
+     SECTION 3 — FUNCTION MACHINE (input → f → output)
+     ============================================ -->
+<section class="section" id="machine">
+  <div class="container">
+    <div class="section-meta">ตอนที่ 03 · เครื่องจักรฟังก์ชัน</div>
+    <h2>x = input → f(x) = output</h2>
+    <p class="lead">ฟังก์ชันเหมือน "เครื่องจักร" — ใส่ค่า $x$ เข้าไป → ผ่านการคำนวณ → ออกมาเป็น $f(x)$ · ลิมิตคือคำถามว่า "ถ้าใส่ $x$ ใกล้ 2 (แต่ไม่ใส่ 2 พอดี) — output ใกล้ค่าอะไร?"</p>
+
+    <div class="interactive">
+      <h3 style="margin-bottom:0.5rem;">ฟังก์ชัน: $\displaystyle f(x) = \frac{x^2 - 4}{x - 2}$</h3>
+      <p style="color:var(--muted);font-size:.9rem;">ลองเลื่อน slider เปลี่ยน $x$ ดู — สังเกตว่า output เปลี่ยนยังไง</p>
+
+      <div class="machine-stage" role="figure" aria-label="เครื่องจักรฟังก์ชัน input output">
+        <div class="machine-box machine-input">
+          <div class="machine-label">INPUT</div>
+          <div class="machine-value" id="machineXVal">1.500</div>
+          <div class="machine-tag">x</div>
+        </div>
+        <div class="machine-arrow" id="machineArrow1">→</div>
+        <div class="machine-box machine-function">
+          <div class="machine-label">FUNCTION</div>
+          <div class="machine-formula">$\displaystyle f(x) = \frac{x^2 - 4}{x - 2}$</div>
+          <div class="machine-sub">= (x − 2)(x + 2) / (x − 2)</div>
+        </div>
+        <div class="machine-arrow" id="machineArrow2">→</div>
+        <div class="machine-box machine-output" id="machineOutBox">
+          <div class="machine-label">OUTPUT</div>
+          <div class="machine-value" id="machineFVal">3.500</div>
+          <div class="machine-tag">f(x)</div>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>เลื่อน input $x$</span>
+          <span class="slider-value mono"><span id="machineXSlider">1.500</span></span>
+        </div>
+        <input type="range" id="machineSlider" min="0" max="4" step="0.001" value="1.5" aria-label="เลื่อนค่า x">
+        <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.72rem;color:var(--muted);margin-top:.25rem;">
+          <span>0</span><span>1</span><span style="color:var(--accent);font-weight:700;">2 (target)</span><span>3</span><span>4</span>
+        </div>
+      </div>
+
+      <div class="machine-warning" id="machineWarn" hidden>
+        <strong>⚠ x = 2 พอดี → เครื่องไม่ทำงาน</strong>
+        ที่ $x = 2$ ตัวเศษ $= 0$ และตัวส่วน $= 0$ → ฟังก์ชัน <em>ไม่นิยาม</em> · บนกราฟจะเห็นเป็น "รู" (open circle) ที่จุดนั้น
+      </div>
+
+      <h4 style="margin-top:1.5rem;">ลองใส่ค่า $x$ ใกล้ 2 ทั้งสองฝั่ง</h4>
+      <div class="machine-tables">
+        <div>
+          <h4 class="left-tag">ใส่จากซ้าย → $x \to 2^-$</h4>
+          <table class="approach-table">
+            <thead><tr><th>x (input)</th><th>f(x) (output)</th></tr></thead>
+            <tbody>
+              <tr><td>1.5</td><td>3.500</td></tr>
+              <tr><td>1.9</td><td>3.900</td></tr>
+              <tr><td>1.99</td><td>3.990</td></tr>
+              <tr><td>1.999</td><td>3.999</td></tr>
+              <tr><td>1.9999</td><td>3.9999</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h4 class="right-tag">ใส่จากขวา → $x \to 2^+$</h4>
+          <table class="approach-table">
+            <thead><tr><th>x (input)</th><th>f(x) (output)</th></tr></thead>
+            <tbody>
+              <tr><td>2.5</td><td>4.500</td></tr>
+              <tr><td>2.1</td><td>4.100</td></tr>
+              <tr><td>2.01</td><td>4.010</td></tr>
+              <tr><td>2.001</td><td>4.001</td></tr>
+              <tr><td>2.0001</td><td>4.0001</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="callout-rule" style="margin-top:1.25rem;">
+        <div class="label">บทเรียนสำคัญ</div>
+        <div style="color:white;line-height:1.8;">
+          input ยิ่ง <strong style="color:#fff;">ใกล้ 2</strong> → output ยิ่ง <strong style="color:#fff;">ใกล้ 4</strong><br>
+          แต่ถ้าใส่ $x = 2$ พอดี → เครื่อง<em>ไม่ทำงาน</em> (undefined)<br>
+          ลิมิตสนใจแค่ "ใกล้แค่ไหน" ไม่สนว่าจุดนั้นนิยามได้หรือเปล่า
+        </div>
+        <div style="background:rgba(255,255,255,0.1);margin-top:0.85rem;padding:0.65rem 0.85rem;border-radius:4px;text-align:center;">
+          $\displaystyle\lim_{x \to 2}\frac{x^2 - 4}{x - 2} = 4$ &nbsp; แม้ว่า $f(2)$ <em>ไม่นิยาม</em>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 4 — LEFT vs RIGHT
      ============================================ -->
 <section class="section" id="left-right">
   <div class="container">
-    <div class="section-meta">ตอนที่ 03 · ลิมิตซ้าย-ขวา</div>
+    <div class="section-meta">ตอนที่ 04 · ลิมิตซ้าย-ขวา</div>
     <h2>ลิมิตซ้าย vs ลิมิตขวา</h2>
     <p class="lead">เข้าใกล้ได้จาก 2 ทิศทาง · ลิมิตจะ "มีค่า" ได้ก็ต่อเมื่อทั้งสองฝั่งบรรจบที่ค่าเดียวกัน</p>
 
@@ -1024,7 +1262,7 @@ input[type=range]::-moz-range-thumb {
      ============================================ -->
 <section class="section" id="seq-vs-fn">
   <div class="container">
-    <div class="section-meta">ตอนที่ 04 · เชื่อมกับบทที่ 1</div>
+    <div class="section-meta">ตอนที่ 05 · เชื่อมกับบทที่ 1</div>
     <h2>n กระโดดทีละก้าว · x ไหลต่อเนื่อง</h2>
     <p class="lead">บทที่ 1: $n$ กระโดดทีละก้าว (ค่าไม่ต่อเนื่อง) · บทที่ 2: $x$ ไหลต่อเนื่อง · ทั้งคู่ถามคำถามเดียวกัน — เข้าใกล้ค่าอะไร?</p>
 
@@ -1068,7 +1306,7 @@ input[type=range]::-moz-range-thumb {
      ============================================ -->
 <section class="section" id="zero-zero">
   <div class="container">
-    <div class="section-meta">ตอนที่ 05 · รูปแบบยังไม่กำหนด 0/0</div>
+    <div class="section-meta">ตอนที่ 06 · รูปแบบยังไม่กำหนด 0/0</div>
     <h2>เจอ 0/0 — อย่าเพิ่งตอบ "ไม่นิยาม"</h2>
     <p class="lead">เมื่อแทนค่าตรง ๆ แล้วได้ $\tfrac{0}{0}$ — เรียกว่า <em>รูปแบบยังไม่กำหนด</em> · ต้องใช้การแยกตัวประกอบหรือคูณด้วยคอนจูเกตก่อน</p>
 
@@ -1119,7 +1357,7 @@ input[type=range]::-moz-range-thumb {
      ============================================ -->
 <section class="section" id="infinity">
   <div class="container">
-    <div class="section-meta">ตอนที่ 06 · ลิมิตที่อนันต์</div>
+    <div class="section-meta">ตอนที่ 07 · ลิมิตที่อนันต์</div>
     <h2>ลิมิตที่ $\infty$ — บรรจบกับเส้นกำกับ</h2>
     <p class="lead">ฟังก์ชันบางตัวเมื่อ $x$ มีค่าใหญ่มาก จะ "แบนราบ" เข้าหาเส้นแนวนอน — เรียกว่า <em>เส้นกำกับ</em> · <strong>เทคนิค:</strong> หารทุกพจน์ด้วยกำลังสูงสุดของตัวส่วน</p>
 
@@ -1163,7 +1401,7 @@ input[type=range]::-moz-range-thumb {
      ============================================ -->
 <section class="section" id="continuity">
   <div class="container">
-    <div class="section-meta">ตอนที่ 07 · ความต่อเนื่อง (หัวข้อ 2.2)</div>
+    <div class="section-meta">ตอนที่ 08 · ความต่อเนื่อง (หัวข้อ 2.2)</div>
     <h2>ความต่อเนื่อง — เขียนกราฟไม่ต้องยกปากกา</h2>
     <p class="lead">$f$ ต่อเนื่องที่จุด $x=a$ เมื่อครบ 3 เงื่อนไข — ขาดข้อใดข้อหนึ่งถือว่า <em>ไม่ต่อเนื่อง</em></p>
 
@@ -1217,7 +1455,7 @@ input[type=range]::-moz-range-thumb {
      ============================================ -->
 <section class="section" id="alevel-real">
   <div class="container">
-    <div class="section-meta">ตอนที่ 08 · ข้อสอบ A-Level จริง</div>
+    <div class="section-meta">ตอนที่ 09 · ข้อสอบ A-Level จริง</div>
     <h2>ลุย A-Level จริง</h2>
     <p class="lead">3 ข้อจาก TCAS66 · 67 · 68 — ลองทำเอง กดเฉลยเมื่อพร้อม</p>
 
@@ -1749,7 +1987,7 @@ input[type=range]::-moz-range-thumb {
      ============================================ -->
 <section class="section" id="summary">
   <div class="container">
-    <div class="section-meta">ตอนที่ 10 · สรุป Cheat Sheet</div>
+    <div class="section-meta">ตอนที่ 11 · สรุป Cheat Sheet</div>
     <h2>สรุป 1 หน้า — ใช้สอบจริง</h2>
     <p class="lead">ปริ้นต์เก็บได้ · ทบทวน 5 นาทีก่อนสอบ</p>
 
@@ -1973,7 +2211,49 @@ function initConcept() {
 }
 
 /* ===================================================
-   SECTION 3 — LEFT vs RIGHT
+   SECTION 3 — FUNCTION MACHINE
+   =================================================== */
+function initMachine() {
+  const slider = $('#machineSlider');
+  if (!slider) return;
+  const xVal = $('#machineXVal');
+  const xSlider = $('#machineXSlider');
+  const fVal = $('#machineFVal');
+  const outBox = $('#machineOutBox');
+  const warn = $('#machineWarn');
+  const arrow1 = $('#machineArrow1');
+  const arrow2 = $('#machineArrow2');
+  const tolerance = 0.0005;
+
+  function update() {
+    const x = parseFloat(slider.value);
+    const isAt2 = Math.abs(x - 2) < tolerance;
+    xVal.textContent = fmt(x, 3);
+    xSlider.textContent = fmt(x, 3);
+
+    if (isAt2) {
+      fVal.textContent = '?';
+      outBox.classList.add('warn');
+      warn.hidden = false;
+      arrow1.classList.add('active');
+      arrow2.classList.remove('active');
+    } else {
+      // mathematically simplifies to x + 2 except at x = 2
+      const f = (x * x - 4) / (x - 2);
+      fVal.textContent = fmt(f, 3);
+      outBox.classList.remove('warn');
+      warn.hidden = true;
+      const closeTo2 = Math.abs(x - 2) < 0.1;
+      arrow1.classList.toggle('active', closeTo2);
+      arrow2.classList.toggle('active', closeTo2);
+    }
+  }
+  slider.addEventListener('input', update);
+  update();
+}
+
+/* ===================================================
+   SECTION 4 — LEFT vs RIGHT
    =================================================== */
 function initLeftRight() {
   const svg = d3.select('#lrSvg');
@@ -2460,6 +2740,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFadeIn();
   initHero();
   initConcept();
+  initMachine();
   initLeftRight();
   initSeqVsFn();
   initZeroOver();
